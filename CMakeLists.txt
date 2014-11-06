@@ -143,6 +143,9 @@ elseif (UNIX)
 	target_link_libraries (
 		ecc_key
 		crypto
+		dl
+		rt
+		pthread
 		)
 endif ()
 
