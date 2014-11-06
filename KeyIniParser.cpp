@@ -1,0 +1,62 @@
+﻿#include "pch.h"
+#include "KeyIniParser.h"
+#include "CmdLine.h"
+
+//.............................................................................
+
+KeyIniParser::KeyIniParser (CmdLine* cmdLine)
+{
+	m_cmdLine = cmdLine;
+	m_isLicenseMatch = false;
+}
+
+bool 
+KeyIniParser::onSection (const char* sectionName)
+{
+	if (m_cmdLine->m_license.isEmpty ())
+	{
+		m_cmdLine->m_license = sectionName;
+		m_isLicenseMatch = true;
+		return true;
+	}
+
+	m_isLicenseMatch = m_cmdLine->m_license == sectionName;
+	return true;
+}
+
+bool
+KeyIniParser::onKeyValue (
+	const char* keyName,
+	const char* value
+	)
+{
+	if (!m_isLicenseMatch) // ignore
+		return true;
+
+	KeyMap::Iterator it = KeyMap::find (keyName);
+	if (it)
+		switch (it->m_value)
+		{
+		case Key_PublicKey:
+			m_cmdLine->m_licensePublicKey = value;
+			break;
+
+		case Key_PrivateKey:
+			m_cmdLine->m_licensePrivateKey = value;
+			break;
+
+		case Key_Curve:
+			m_cmdLine->m_curveId = OBJ_sn2nid (value);
+			if (m_cmdLine->m_curveId == NID_undef)
+			{
+				err::setFormatStringError ("invalid curve '%s'", value);
+				return false;
+			}
+
+			break;
+	}
+
+	return true;
+}
+
+//.............................................................................
