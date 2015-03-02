@@ -116,7 +116,7 @@ newProductKey (CmdLine* cmdLine)
 			printf (
 				"error reading %s: %s\n",
 				cmdLine->m_licenseFileName.cc (),
-				err::getError ()->getDescription ().cc ()
+				err::getLastError ()->getDescription ().cc ()
 				);
 			return -1;
 		}
@@ -129,7 +129,7 @@ newProductKey (CmdLine* cmdLine)
 		printf (
 			"invalid private key '%s': %s\n",
 			cmdLine->m_licensePrivateKey.cc (),
-			err::getError ()->getDescription ().cc ()
+			err::getLastError ()->getDescription ().cc ()
 			);
 		return -1;
 	}
@@ -177,7 +177,7 @@ verifyProductKey (CmdLine* cmdLine)
 			printf (
 				"error reading %s: %s\n",
 				cmdLine->m_licenseFileName.cc (),
-				err::getError ()->getDescription ().cc ()
+				err::getLastError ()->getDescription ().cc ()
 				);
 			return -1;
 		}
@@ -190,7 +190,7 @@ verifyProductKey (CmdLine* cmdLine)
 		printf (
 			"invalid public key '%s': %s\n",
 			cmdLine->m_licensePublicKey.cc (),
-			err::getError ()->getDescription ().cc ()
+			err::getLastError ()->getDescription ().cc ()
 			);
 		return -1;
 	}
@@ -243,7 +243,7 @@ main (
 	result = parser.parse (argc, argv);
 	if (!result)
 	{
-		printf ("error parsing command line: %s\n", err::getError ()->getDescription ().cc ());
+		printf ("error parsing command line: %s\n", err::getLastError ()->getDescription ().cc ());
 		return -1;
 	}
 
