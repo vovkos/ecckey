@@ -14,7 +14,7 @@ protected:
 		Key_PrivateKey,
 	};
 
-	AXL_RTL_BEGIN_HASH_TABLE_MAP_STRING (KeyMap, Key)
+	AXL_RTL_BEGIN_STRING_HASH_TABLE_MAP (KeyMap, Key)
 		AXL_RTL_HASH_TABLE_MAP_ENTRY ("curve",       Key_Curve)
 		AXL_RTL_HASH_TABLE_MAP_ENTRY ("public-key",  Key_PublicKey)
 		AXL_RTL_HASH_TABLE_MAP_ENTRY ("private-key", Key_PrivateKey)
