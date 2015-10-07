@@ -24,7 +24,7 @@ printUsage ()
 {
 	printVersion ();
 
-	rtl::String helpString = CmdLineSwitchTable::getHelpString ();
+	sl::String helpString = CmdLineSwitchTable::getHelpString ();
 	printf ("Usage: ecc-key <options>...\n%s", helpString.cc ());
 }
 
@@ -33,7 +33,7 @@ listCurves (CmdLine* cmdLine)
 {
 	size_t count = EC_get_builtin_curves (NULL, 0);
 	
-	rtl::Array <EC_builtin_curve> curveArray;
+	sl::Array <EC_builtin_curve> curveArray;
 	curveArray.setCount (count);
 	count = EC_get_builtin_curves (curveArray, count);
 
@@ -78,7 +78,7 @@ newLicenseKey (CmdLine* cmdLine)
 
 	const char* sampleUserName = "Sample User";
 
-	rtl::String sampleProductKey = cry::generateEcProductKey (
+	sl::String sampleProductKey = cry::generateEcProductKey (
 		key,
 		sampleUserName,
 		cmdLine->m_hyphenDistance
@@ -134,7 +134,7 @@ newProductKey (CmdLine* cmdLine)
 		return -1;
 	}
 
-	rtl::String productKey = cry::generateEcProductKey (key, cmdLine->m_userName, cmdLine->m_hyphenDistance);
+	sl::String productKey = cry::generateEcProductKey (key, cmdLine->m_userName, cmdLine->m_hyphenDistance);
 
 	EC_GROUP* group = key.getGroup ();
 	BIGNUM* privateKey = key.getPrivateKey ();

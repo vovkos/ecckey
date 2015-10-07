@@ -21,12 +21,12 @@ struct CmdLine
 	size_t m_hyphenDistance;
 	uint_t m_curveId;
 	
-	rtl::String m_licenseFileName;
-	rtl::String m_license;
-	rtl::String m_licensePublicKey;
-	rtl::String m_licensePrivateKey;
-	rtl::String m_userName;
-	rtl::String m_productKey;
+	sl::String m_licenseFileName;
+	sl::String m_license;
+	sl::String m_licensePublicKey;
+	sl::String m_licensePrivateKey;
+	sl::String m_userName;
+	sl::String m_productKey;
 
 	CmdLine ();
 };
@@ -43,7 +43,7 @@ enum CmdLineSwitchKind
 	CmdLineSwitchKind_VerifyProductKey,
 	CmdLineSwitchKind_ListCurves,
 	CmdLineSwitchKind_Minimalistic,
-	CmdLineSwitchKind_LicenseFileName = rtl::CmdLineSwitchFlag_HasValue,
+	CmdLineSwitchKind_LicenseFileName = sl::CmdLineSwitchFlag_HasValue,
 	CmdLineSwitchKind_License,
 	CmdLineSwitchKind_LicensePublicKey,
 	CmdLineSwitchKind_LicensePrivateKey,
@@ -55,89 +55,89 @@ enum CmdLineSwitchKind
 
 //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
-AXL_RTL_BEGIN_CMD_LINE_SWITCH_TABLE (CmdLineSwitchTable, CmdLineSwitchKind)
-	AXL_RTL_CMD_LINE_SWITCH_2 (
+AXL_SL_BEGIN_CMD_LINE_SWITCH_TABLE (CmdLineSwitchTable, CmdLineSwitchKind)
+	AXL_SL_CMD_LINE_SWITCH_2 (
 		CmdLineSwitchKind_Help,
 		"h", "help", NULL,
 		"Display this help"
 		)
-	AXL_RTL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2 (
 		CmdLineSwitchKind_Version,
 		"v", "version", NULL,
 		"Display version of ecc-key"
 		)
-	AXL_RTL_CMD_LINE_SWITCH (
+	AXL_SL_CMD_LINE_SWITCH (
 		CmdLineSwitchKind_NewLicenseKey,
 		"new-license-key", NULL,
 		"Generate a new license key"
 		)
-	AXL_RTL_CMD_LINE_SWITCH (
+	AXL_SL_CMD_LINE_SWITCH (
 		CmdLineSwitchKind_NewProductKey,
 		"new-product-key", NULL,
 		"Generate a new product key"
 		)
-	AXL_RTL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2 (
 		CmdLineSwitchKind_VerifyProductKey,
 		"verify", "check", NULL,
 		"Verify a product key"
 		)
-	AXL_RTL_CMD_LINE_SWITCH (
+	AXL_SL_CMD_LINE_SWITCH (
 		CmdLineSwitchKind_ListCurves,
 		"list-curves", NULL,
 		"Display the list of available ECC curves"
 		)
-	AXL_RTL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2 (
 		CmdLineSwitchKind_Minimalistic,
 		"min", "minimalistic", NULL,
 		"Omit verbose data where possible"
 		)
-	AXL_RTL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2 (
 		CmdLineSwitchKind_LicenseFileName,
 		"f", "license-file", "<file>",
 		"Specify license file (default: ecc-key.conf)"
 		)
-	AXL_RTL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2 (
 		CmdLineSwitchKind_License,
 		"l", "license", "<license>",
 		"Specify license (default: the 1st license in file)"
 		)
-	AXL_RTL_CMD_LINE_SWITCH (
+	AXL_SL_CMD_LINE_SWITCH (
 		CmdLineSwitchKind_LicensePublicKey,
 		"public-key", "<key>",
 		"Specify license public key (for verification)"
 		)
-	AXL_RTL_CMD_LINE_SWITCH (
+	AXL_SL_CMD_LINE_SWITCH (
 		CmdLineSwitchKind_LicensePrivateKey,
 		"private-key", "<key>",
 		"Specify license private key"
 		)
-	AXL_RTL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2 (
 		CmdLineSwitchKind_LicenseCurve,
 		"c", "curve", "<curve>",
 		"Specify ECC curve (default: secp112r1)"
 		)
-	AXL_RTL_CMD_LINE_SWITCH (
+	AXL_SL_CMD_LINE_SWITCH (
 		CmdLineSwitchKind_HyphenDistance,
 		"hyphen-distance", "<n>",
 		"Specify hyphen distance (default: 6)"
 		)
-	AXL_RTL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2 (
 		CmdLineSwitchKind_UserName,
 		"u", "user", "<user>",
 		"Specify user name"
 		)
-	AXL_RTL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2 (
 		CmdLineSwitchKind_UserName,
 		"p", "product-key", "<key>",
 		"Specify product key (for verification)"
 		)
-AXL_RTL_END_CMD_LINE_SWITCH_TABLE ()
+AXL_SL_END_CMD_LINE_SWITCH_TABLE ()
 
 //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
-class CmdLineParser: public rtl::CmdLineParser <CmdLineParser, CmdLineSwitchTable>
+class CmdLineParser: public sl::CmdLineParser <CmdLineParser, CmdLineSwitchTable>
 {
-	friend class rtl::CmdLineParser <CmdLineParser, CmdLineSwitchTable>;
+	friend class sl::CmdLineParser <CmdLineParser, CmdLineSwitchTable>;
 
 protected:
 	CmdLine* m_cmdLine;
