@@ -11,7 +11,7 @@ set (
 	APP_H_LIST
 	CmdLine.h
 	KeyIniParser.h
-	Version.h.in
+	version.h.in
 	)
 
 set (
@@ -55,13 +55,13 @@ file (MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 push_and_set (CMAKE_CURRENT_BINARY_DIR ${GEN_DIR})
 
 configure_file (
-	Version.h.in
-	${GEN_DIR}/Version.h
+	version.h.in
+	${GEN_DIR}/version.h
 	)
 
 set (
 	GEN_H_LIST
-	${GEN_DIR}/Version.h
+	${GEN_DIR}/version.h
 	)
 
 pop (CMAKE_CURRENT_BINARY_DIR)

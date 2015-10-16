@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CmdLine.h"
 #include "KeyIniParser.h"
-#include "Version.h"
+#include "version.h"
 
 #define _PRINT_USAGE_IF_NO_ARGUMENTS
 
