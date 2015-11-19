@@ -144,9 +144,14 @@ elseif (UNIX)
 		ecc_key
 		crypto
 		dl
-		rt
 		pthread
 		)
+		
+	if (NOT APPLE)
+		target_link_libraries (
+			rt
+			)
+	endif ()
 endif ()
 
 set_pch (
