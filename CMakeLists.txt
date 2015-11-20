@@ -149,6 +149,7 @@ elseif (UNIX)
 		
 	if (NOT APPLE)
 		target_link_libraries (
+			ecc_key
 			rt
 			)
 	endif ()
