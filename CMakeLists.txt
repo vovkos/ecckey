@@ -113,6 +113,12 @@ add_executable (
 	${GEN_H_LIST}
 	)
 
+set_pch (
+	ecc_key
+	${PCH_H}
+	${PCH_CPP}
+	)
+
 set_target_properties (
 	ecc_key
 	PROPERTIES
@@ -154,11 +160,5 @@ elseif (UNIX)
 			)
 	endif ()
 endif ()
-
-set_pch (
-	ecc_key
-	${PCH_H}
-	${PCH_CPP}
-	)
 
 #..............................................................................
