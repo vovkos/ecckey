@@ -52,7 +52,7 @@ source_group (
 set (GEN_DIR ${CMAKE_CURRENT_BINARY_DIR}/gen)
 file (MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
-push_and_set (CMAKE_CURRENT_BINARY_DIR ${GEN_DIR})
+axl_push_and_set (CMAKE_CURRENT_BINARY_DIR ${GEN_DIR})
 
 configure_file (
 	version.h.in
@@ -64,7 +64,7 @@ set (
 	${GEN_DIR}/version.h
 	)
 
-pop (CMAKE_CURRENT_BINARY_DIR)
+axl_pop (CMAKE_CURRENT_BINARY_DIR)
 
 source_group (
 	gen
@@ -113,7 +113,7 @@ add_executable (
 	${GEN_H_LIST}
 	)
 
-set_pch (
+axl_set_pch (
 	ecc_key
 	${PCH_H}
 	${PCH_CPP}
