@@ -226,7 +226,7 @@ main (
 {
 	int result;
 
-	err::registerParseErrorProvider ();
+	lex::registerParseErrorProvider ();
 	cry::registerCryptoErrorProvider ();
 
 	CmdLine cmdLine;

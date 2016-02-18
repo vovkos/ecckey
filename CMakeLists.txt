@@ -135,6 +135,7 @@ target_link_libraries (
 	ecc_key
 	axl_cry
 	axl_ini
+	axl_lex
 	axl_io
 	axl_core
 	${LLVM_LIB_LIST}
