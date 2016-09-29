@@ -15,8 +15,8 @@ printVersion ()
 		VERSION_MAJOR,
 		VERSION_MINOR,
 		VERSION_REVISION,
-		_AXL_CPU_STRING,
-		_AXL_DEBUG_SUFFIX
+		AXL_CPU_STRING,
+		AXL_DEBUG_SUFFIX
 		);
 }
 
@@ -211,7 +211,7 @@ verifyProductKey (CmdLine* cmdLine)
 
 //.............................................................................
 
-#if (_AXL_ENV == AXL_ENV_WIN)
+#if (_AXL_OS_WIN)
 int
 wmain (
 	int argc,
@@ -248,7 +248,7 @@ main (
 		return -1;
 	}
 
-#if (_AXL_ENV == AXL_ENV_WIN)
+#if (_AXL_OS_WIN)
 	SetConsoleOutputCP (CP_UTF8);
 #endif
 
