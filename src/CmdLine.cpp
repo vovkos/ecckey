@@ -7,7 +7,7 @@ CmdLine::CmdLine ()
 {
 	m_flags = 0;
 	m_hyphenDistance = 6;
-	m_licenseFileName = "ecc-key.conf";
+	m_licenseFileName = "ecckey.conf";
 	m_curveId = NID_secp112r1;
 }
 
@@ -102,7 +102,7 @@ CmdLineParser::finalize ()
 {
 	if (!(m_cmdLine->m_flags & (CmdLineFlag_NewProductKey | CmdLineFlag_VerifyProductKey)))
 	{
-		if (!m_cmdLine->m_userName.isEmpty ()) // e.g. ecc-key -u user 
+		if (!m_cmdLine->m_userName.isEmpty ()) // e.g. ecckey -u user 
 			m_cmdLine->m_flags |= CmdLineFlag_NewProductKey;
 	}
 	else if (m_cmdLine->m_userName.isEmpty ())

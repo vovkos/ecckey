@@ -22,10 +22,10 @@ BEGIN
 			VALUE "CompanyName",      VERSION_COMPANY
 			VALUE "FileDescription",  "ECC Product Key Utility"
 			VALUE "FileVersion",      VERSION_STRING
-			VALUE "InternalName",     "ecc-key"
+			VALUE "InternalName",     "ecckey"
 			VALUE "LegalCopyright",   "Copyright © " VERSION_YEARS " " VERSION_COMPANY
-			VALUE "OriginalFilename", "ecc-key.exe"
-			VALUE "ProductName",      "AXL Library"
+			VALUE "OriginalFilename", "ecckey.exe"
+			VALUE "ProductName",      "ECC Product Key Utility"
 			VALUE "ProductVersion",   VERSION_STRING
 		END
 	END

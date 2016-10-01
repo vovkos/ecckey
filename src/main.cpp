@@ -11,7 +11,7 @@ void
 printVersion ()
 {
 	printf (
-		"ecc-key v%d.%d.%d (%s%s)\n",
+		"ecckey v%d.%d.%d (%s%s)\n",
 		VERSION_MAJOR,
 		VERSION_MINOR,
 		VERSION_REVISION,
@@ -26,7 +26,7 @@ printUsage ()
 	printVersion ();
 
 	sl::String helpString = CmdLineSwitchTable::getHelpString ();
-	printf ("Usage: ecc-key <options>...\n%s", helpString.cc ());
+	printf ("Usage: ecckey <options>...\n%s", helpString.cc ());
 }
 
 void

@@ -64,7 +64,7 @@ AXL_SL_BEGIN_CMD_LINE_SWITCH_TABLE (CmdLineSwitchTable, CmdLineSwitchKind)
 	AXL_SL_CMD_LINE_SWITCH_2 (
 		CmdLineSwitchKind_Version,
 		"v", "version", NULL,
-		"Display version of ecc-key"
+		"Display version of ecckey"
 		)
 	AXL_SL_CMD_LINE_SWITCH (
 		CmdLineSwitchKind_NewLicenseKey,
@@ -94,7 +94,7 @@ AXL_SL_BEGIN_CMD_LINE_SWITCH_TABLE (CmdLineSwitchTable, CmdLineSwitchKind)
 	AXL_SL_CMD_LINE_SWITCH_2 (
 		CmdLineSwitchKind_LicenseFileName,
 		"f", "license-file", "<file>",
-		"Specify license file (default: ecc-key.conf)"
+		"Specify license file (default: ecckey.conf)"
 		)
 	AXL_SL_CMD_LINE_SWITCH_2 (
 		CmdLineSwitchKind_License,
