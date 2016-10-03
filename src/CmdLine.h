@@ -43,7 +43,7 @@ enum CmdLineSwitchKind
 	CmdLineSwitchKind_VerifyProductKey,
 	CmdLineSwitchKind_ListCurves,
 	CmdLineSwitchKind_Minimalistic,
-	CmdLineSwitchKind_LicenseFileName = sl::CmdLineSwitchFlag_HasValue,
+	CmdLineSwitchKind_LicenseFileName,
 	CmdLineSwitchKind_License,
 	CmdLineSwitchKind_LicensePublicKey,
 	CmdLineSwitchKind_LicensePrivateKey,
