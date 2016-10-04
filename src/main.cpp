@@ -26,7 +26,7 @@ printUsage ()
 	printVersion ();
 
 	sl::String helpString = CmdLineSwitchTable::getHelpString ();
-	printf ("Usage: ecckey <options>...\n%s", helpString.cc ());
+	printf ("Usage: ecckey <options>...\n%s", helpString.sz ());
 }
 
 void
@@ -67,8 +67,8 @@ newLicenseKey (CmdLine* cmdLine)
 		"public-key  = %s\n"
 		"private-key = %s\n",
 		OBJ_nid2sn (cmdLine->m_curveId),
-		publicKey.getHexString (key.getGroup ()).cc (),
-		privateKey.getHexString ().cc ()
+		publicKey.getHexString (key.getGroup ()).sz (),
+		privateKey.getHexString ().sz ()
 		);
 
 	privateKey.detach ();
@@ -77,7 +77,7 @@ newLicenseKey (CmdLine* cmdLine)
 	if (cmdLine->m_flags & CmdLineFlag_Minimalistic)
 		return 0;
 
-	const char* sampleUserName = "Sample User";
+	sl::StringRef sampleUserName = "Sample User";
 
 	sl::String sampleProductKey = cry::generateEcProductKey (
 		key,
@@ -96,8 +96,8 @@ newLicenseKey (CmdLine* cmdLine)
 		"\n# sample:\n"
 		"# user        = %s\n"
 		"# product key = %s\n",
-		sampleUserName,		
-		sampleProductKey.cc ()
+		sampleUserName.sz (),		
+		sampleProductKey.sz ()
 		);
 
 	return 0;
@@ -116,8 +116,8 @@ newProductKey (CmdLine* cmdLine)
 		{
 			printf (
 				"error reading %s: %s\n",
-				cmdLine->m_licenseFileName.cc (),
-				err::getLastErrorDescription ().cc ()
+				cmdLine->m_licenseFileName.sz (),
+				err::getLastErrorDescription ().sz ()
 				);
 			return -1;
 		}
@@ -129,8 +129,8 @@ newProductKey (CmdLine* cmdLine)
 	{
 		printf (
 			"invalid private key '%s': %s\n",
-			cmdLine->m_licensePrivateKey.cc (),
-			err::getLastErrorDescription ().cc ()
+			cmdLine->m_licensePrivateKey.sz (),
+			err::getLastErrorDescription ().sz ()
 			);
 		return -1;
 	}
@@ -152,13 +152,13 @@ newProductKey (CmdLine* cmdLine)
 	}
 
 	if (!cmdLine->m_license.isEmpty ())
-		printf ("license     = %s\n", cmdLine->m_license.cc ());
+		printf ("license     = %s\n", cmdLine->m_license.sz ());
 
 	printf (
 		"user        = %s\n"
 		"product key = %s\n",
-		cmdLine->m_userName.cc (),
-		productKey.cc ()
+		cmdLine->m_userName.sz (),
+		productKey.sz ()
 		);
 
 	return 0;
@@ -177,8 +177,8 @@ verifyProductKey (CmdLine* cmdLine)
 		{
 			printf (
 				"error reading %s: %s\n",
-				cmdLine->m_licenseFileName.cc (),
-				err::getLastErrorDescription ().cc ()
+				cmdLine->m_licenseFileName.sz (),
+				err::getLastErrorDescription ().sz ()
 				);
 			return -1;
 		}
@@ -190,8 +190,8 @@ verifyProductKey (CmdLine* cmdLine)
 	{
 		printf (
 			"invalid public key '%s': %s\n",
-			cmdLine->m_licensePublicKey.cc (),
-			err::getLastErrorDescription ().cc ()
+			cmdLine->m_licensePublicKey.sz (),
+			err::getLastErrorDescription ().sz ()
 			);
 		return -1;
 	}
@@ -244,7 +244,7 @@ main (
 	result = parser.parse (argc, argv);
 	if (!result)
 	{
-		printf ("error parsing command line: %s\n", err::getLastErrorDescription ().cc ());
+		printf ("error parsing command line: %s\n", err::getLastErrorDescription ().sz ());
 		return -1;
 	}
 

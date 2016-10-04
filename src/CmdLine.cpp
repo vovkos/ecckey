@@ -16,7 +16,7 @@ CmdLine::CmdLine ()
 bool
 CmdLineParser::onSwitch (
 	SwitchKind switchKind,
-	const char* value
+	const sl::StringRef& value
 	)
 {
 	switch (switchKind)
@@ -66,20 +66,20 @@ CmdLineParser::onSwitch (
 		break;
 
 	case CmdLineSwitchKind_LicenseCurve:
-		m_cmdLine->m_curveId = OBJ_sn2nid (value);
+		m_cmdLine->m_curveId = OBJ_sn2nid (value.sz ());
 		if (m_cmdLine->m_curveId == NID_undef)
 		{
-			err::setFormatStringError ("invalid curve '%s'", value);
+			err::setFormatStringError ("invalid curve '%s'", value.sz ());
 			return false;
 		}
 
 		break;
 
 	case CmdLineSwitchKind_HyphenDistance:
-		m_cmdLine->m_hyphenDistance = atoi (value);
+		m_cmdLine->m_hyphenDistance = atoi (value.sz ());
 		if (!m_cmdLine->m_hyphenDistance)
 		{
-			err::setFormatStringError ("invalid hyphen distance '%s'", value);
+			err::setFormatStringError ("invalid hyphen distance '%s'", value.sz ());
 			return false;
 		}
 

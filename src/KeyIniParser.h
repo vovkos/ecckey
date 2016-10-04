@@ -28,12 +28,12 @@ public:
 	KeyIniParser (CmdLine* cmdLine);
 
 	bool 
-	onSection (const char* sectionName);
+	onSection (const sl::StringRef& sectionName);
 
 	bool 
 	onKeyValue (
-		const char* keyName, 
-		const char* value
+		const sl::StringRef& keyName, 
+		const sl::StringRef& value
 		);
 };
 
