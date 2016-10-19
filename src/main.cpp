@@ -5,7 +5,7 @@
 
 #define _PRINT_USAGE_IF_NO_ARGUMENTS
 
-//.............................................................................
+//..............................................................................
 
 void
 printVersion ()
@@ -33,7 +33,7 @@ void
 listCurves (CmdLine* cmdLine)
 {
 	size_t count = EC_get_builtin_curves (NULL, 0);
-	
+
 	sl::Array <EC_builtin_curve> curveArray;
 	curveArray.setCount (count);
 	count = EC_get_builtin_curves (curveArray, count);
@@ -41,19 +41,19 @@ listCurves (CmdLine* cmdLine)
 	if (cmdLine->m_flags & CmdLineFlag_Minimalistic)
 		for (size_t i = 0; i < count; i++)
 			printf ("%s\n", OBJ_nid2sn (curveArray [i].nid));
-	else 
+	else
 		for (size_t i = 0; i < count; i++)
 			printf (
 				"NID     = %d\n"
 				"SN      = %s\n"
-				"comment = %s\n\n", 
-				curveArray [i].nid, 
+				"comment = %s\n\n",
+				curveArray [i].nid,
 				OBJ_nid2sn (curveArray [i].nid),
 				curveArray [i].comment
 				);
 }
 
-int 
+int
 newLicenseKey (CmdLine* cmdLine)
 {
 	cry::EcKey key (cmdLine->m_curveId);
@@ -96,14 +96,14 @@ newLicenseKey (CmdLine* cmdLine)
 		"\n# sample:\n"
 		"# user        = %s\n"
 		"# product key = %s\n",
-		sampleUserName.sz (),		
+		sampleUserName.sz (),
 		sampleProductKey.sz ()
 		);
 
 	return 0;
 }
 
-int 
+int
 newProductKey (CmdLine* cmdLine)
 {
 	bool result;
@@ -164,7 +164,7 @@ newProductKey (CmdLine* cmdLine)
 	return 0;
 }
 
-int 
+int
 verifyProductKey (CmdLine* cmdLine)
 {
 	bool result;
@@ -209,7 +209,7 @@ verifyProductKey (CmdLine* cmdLine)
 	}
 }
 
-//.............................................................................
+//..............................................................................
 
 #if (_AXL_OS_WIN)
 int
@@ -270,4 +270,4 @@ main (
 	return result;
 }
 
-//.............................................................................
+//..............................................................................

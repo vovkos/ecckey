@@ -2,7 +2,7 @@
 #include "KeyIniParser.h"
 #include "CmdLine.h"
 
-//.............................................................................
+//..............................................................................
 
 KeyIniParser::KeyIniParser (CmdLine* cmdLine)
 {
@@ -10,7 +10,7 @@ KeyIniParser::KeyIniParser (CmdLine* cmdLine)
 	m_isLicenseMatch = false;
 }
 
-bool 
+bool
 KeyIniParser::onSection (const sl::StringRef& sectionName)
 {
 	if (m_cmdLine->m_license.isEmpty ())
@@ -59,4 +59,4 @@ KeyIniParser::onKeyValue (
 	return true;
 }
 
-//.............................................................................
+//..............................................................................

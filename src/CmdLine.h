@@ -1,6 +1,6 @@
 #pragma once
 
-//.............................................................................
+//..............................................................................
 
 enum CmdLineFlag
 {
@@ -13,14 +13,14 @@ enum CmdLineFlag
 	CmdLineFlag_Minimalistic     = 0x0040,
 };
 
-//. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+// . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 struct CmdLine
 {
 	uint_t m_flags;
 	size_t m_hyphenDistance;
 	uint_t m_curveId;
-	
+
 	sl::String m_licenseFileName;
 	sl::String m_license;
 	sl::String m_licensePublicKey;
@@ -31,7 +31,7 @@ struct CmdLine
 	CmdLine ();
 };
 
-//.............................................................................
+//..............................................................................
 
 enum CmdLineSwitchKind
 {
@@ -53,7 +53,7 @@ enum CmdLineSwitchKind
 	CmdLineSwitchKind_ProductKey,
 };
 
-//. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+// . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 AXL_SL_BEGIN_CMD_LINE_SWITCH_TABLE (CmdLineSwitchTable, CmdLineSwitchKind)
 	AXL_SL_CMD_LINE_SWITCH_2 (
@@ -133,7 +133,7 @@ AXL_SL_BEGIN_CMD_LINE_SWITCH_TABLE (CmdLineSwitchTable, CmdLineSwitchKind)
 		)
 AXL_SL_END_CMD_LINE_SWITCH_TABLE ()
 
-//. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+// . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 class CmdLineParser: public sl::CmdLineParser <CmdLineParser, CmdLineSwitchTable>
 {
@@ -161,9 +161,9 @@ protected:
 		SwitchKind switchKind,
 		const sl::StringRef& value
 		);
-	
+
 	bool
 	finalize ();
 };
 
-//.............................................................................
+//..............................................................................

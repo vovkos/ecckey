@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CmdLine.h"
 
-//.............................................................................
+//..............................................................................
 
 CmdLine::CmdLine ()
 {
@@ -11,7 +11,7 @@ CmdLine::CmdLine ()
 	m_curveId = NID_secp112r1;
 }
 
-//.............................................................................
+//..............................................................................
 
 bool
 CmdLineParser::onSwitch (
@@ -102,7 +102,7 @@ CmdLineParser::finalize ()
 {
 	if (!(m_cmdLine->m_flags & (CmdLineFlag_NewProductKey | CmdLineFlag_VerifyProductKey)))
 	{
-		if (!m_cmdLine->m_userName.isEmpty ()) // e.g. ecckey -u user 
+		if (!m_cmdLine->m_userName.isEmpty ()) // e.g. ecckey -u user
 			m_cmdLine->m_flags |= CmdLineFlag_NewProductKey;
 	}
 	else if (m_cmdLine->m_userName.isEmpty ())
@@ -120,4 +120,4 @@ CmdLineParser::finalize ()
 	return true;
 }
 
-//.............................................................................
+//..............................................................................

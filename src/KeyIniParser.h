@@ -2,7 +2,7 @@
 
 struct CmdLine;
 
-//.............................................................................
+//..............................................................................
 
 class KeyIniParser: public ini::Parser <KeyIniParser>
 {
@@ -27,14 +27,14 @@ protected:
 public:
 	KeyIniParser (CmdLine* cmdLine);
 
-	bool 
+	bool
 	onSection (const sl::StringRef& sectionName);
 
-	bool 
+	bool
 	onKeyValue (
-		const sl::StringRef& keyName, 
+		const sl::StringRef& keyName,
 		const sl::StringRef& value
 		);
 };
 
-//.............................................................................
+//..............................................................................
