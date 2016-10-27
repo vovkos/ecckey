@@ -17,6 +17,15 @@ include (axl_cmake.cmake NO_POLICY_SCOPE)
 
 #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
+set (ECCKEY_ROOT_DIR     ${CMAKE_CURRENT_LIST_DIR})
+set (ECCKEY_BIN_BASE_DIR ${CMAKE_CURRENT_BINARY_DIR}/bin)
+set (ECCKEY_DOC_DIR      ${CMAKE_CURRENT_BINARY_DIR}/doc)
+set (ECCKEY_PACKAGE_DIR  ${CMAKE_CURRENT_BINARY_DIR}/package)
+
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ECCKEY_BIN_BASE_DIR}/${CONFIGURATION_SUFFIX_0})
+
+#. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
 include (version.cmake)
 
 add_subdirectory (src)
