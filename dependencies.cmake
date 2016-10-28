@@ -15,6 +15,7 @@ set (
 	OPENSSL_INC_DIR
 	OPENSSL_LIB_DIR
 	AXL_CMAKE_DIR
+	RAGEL_EXE
 	)
 
 set (
@@ -23,6 +24,7 @@ set (
 	REQUIRED
 		openssl
 		axl
+		ragel
 	)
 
 #...............................................................................
