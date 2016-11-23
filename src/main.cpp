@@ -238,6 +238,10 @@ main (
 {
 	int result;
 
+#if _AXL_OS_POSIX
+	setvbuf (stdout, NULL, _IOLBF, 1024);
+#endif
+
 	lex::registerParseErrorProvider ();
 	cry::registerCryptoErrorProvider ();
 
