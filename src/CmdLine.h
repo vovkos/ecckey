@@ -138,7 +138,7 @@ AXL_SL_BEGIN_CMD_LINE_SWITCH_TABLE (CmdLineSwitchTable, CmdLineSwitchKind)
 		"Specify user name"
 		)
 	AXL_SL_CMD_LINE_SWITCH_2 (
-		CmdLineSwitchKind_UserName,
+		CmdLineSwitchKind_ProductKey,
 		"p", "product-key", "<key>",
 		"Specify product key (for verification)"
 		)

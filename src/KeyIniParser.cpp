@@ -65,7 +65,7 @@ KeyIniParser::onKeyValue (
 			}
 
 			break;
-	}
+		}
 
 	return true;
 }
