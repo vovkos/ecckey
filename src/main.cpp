@@ -65,6 +65,51 @@ listCurves (CmdLine* cmdLine)
 }
 
 int
+newLicenseFile (CmdLine* cmdLine)
+{
+	bool doesExist = io::doesFileExist (cmdLine->m_licenseFileName);
+	if (doesExist)
+	{
+		printf ("file %s already exists\n", cmdLine->m_licenseFileName.sz ());
+		return -1;
+	}
+
+	io::File file;
+	bool result = file.open (cmdLine->m_licenseFileName);
+	if (!result)
+	{
+		printf (
+			"can't open %s: %s\n", cmdLine->m_licenseFileName.sz (),
+			err::getLastErrorDescription ().sz ()
+			);
+		return -1;
+	}
+
+	cry::EcKey key (cmdLine->m_curveId);
+	key.generateKey ();
+
+	cry::EcPoint publicKey = key.getPublicKey ();
+	cry::BigNum privateKey = key.getPrivateKey ();
+
+	sl::String buffer;
+	buffer.format (
+		"[sample-license]\n"
+		"curve       = %s\n"
+		"public-key  = %s\n"
+		"private-key = %s\n",
+		OBJ_nid2sn (cmdLine->m_curveId),
+		publicKey.getHexString (key.getGroup ()).sz (),
+		privateKey.getHexString ().sz ()
+		);
+
+	privateKey.detach ();
+	publicKey.detach ();
+
+	file.write (buffer, buffer.getLength ());
+	return 0;
+}
+
+int
 newLicenseKey (CmdLine* cmdLine)
 {
 	cry::EcKey key (cmdLine->m_curveId);
@@ -275,6 +320,8 @@ main (
 		printVersion ();
 	else if (cmdLine.m_flags & CmdLineFlag_ListCurves)
 		listCurves (&cmdLine);
+	else if (cmdLine.m_flags & CmdLineFlag_NewLicenseFile)
+		result = newLicenseFile (&cmdLine);
 	else if (cmdLine.m_flags & CmdLineFlag_NewLicenseKey)
 		result = newLicenseKey (&cmdLine);
 	else if (cmdLine.m_flags & CmdLineFlag_NewProductKey)

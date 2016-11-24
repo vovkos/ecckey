@@ -40,6 +40,10 @@ CmdLineParser::onSwitch (
 		m_cmdLine->m_flags |= CmdLineFlag_Version;
 		break;
 
+	case CmdLineSwitchKind_NewLicenseFile:
+		m_cmdLine->m_flags |= CmdLineFlag_NewLicenseFile;
+		break;
+
 	case CmdLineSwitchKind_NewLicenseKey:
 		m_cmdLine->m_flags |= CmdLineFlag_NewLicenseKey;
 		break;

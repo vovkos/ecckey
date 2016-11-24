@@ -17,11 +17,12 @@ enum CmdLineFlag
 {
 	CmdLineFlag_Help             = 0x0001,
 	CmdLineFlag_Version          = 0x0002,
-	CmdLineFlag_NewLicenseKey    = 0x0004,
-	CmdLineFlag_NewProductKey    = 0x0008,
-	CmdLineFlag_VerifyProductKey = 0x0010,
-	CmdLineFlag_ListCurves       = 0x0020,
-	CmdLineFlag_Minimalistic     = 0x0040,
+	CmdLineFlag_NewLicenseFile   = 0x0004,
+	CmdLineFlag_NewLicenseKey    = 0x0008,
+	CmdLineFlag_NewProductKey    = 0x0010,
+	CmdLineFlag_VerifyProductKey = 0x0020,
+	CmdLineFlag_ListCurves       = 0x0040,
+	CmdLineFlag_Minimalistic     = 0x0080,
 };
 
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -49,6 +50,7 @@ enum CmdLineSwitchKind
 	CmdLineSwitchKind_Undefined = 0,
 	CmdLineSwitchKind_Help,
 	CmdLineSwitchKind_Version,
+	CmdLineSwitchKind_NewLicenseFile,
 	CmdLineSwitchKind_NewLicenseKey,
 	CmdLineSwitchKind_NewProductKey,
 	CmdLineSwitchKind_VerifyProductKey,
@@ -77,6 +79,11 @@ AXL_SL_BEGIN_CMD_LINE_SWITCH_TABLE (CmdLineSwitchTable, CmdLineSwitchKind)
 		"v", "version", NULL,
 		"Display version of ecckey"
 		)
+	AXL_SL_CMD_LINE_SWITCH_2 (
+		CmdLineSwitchKind_NewLicenseFile,
+		"g", "new-license-file", NULL,
+		"Generate a new license file (-f to specify name)"
+		)
 	AXL_SL_CMD_LINE_SWITCH (
 		CmdLineSwitchKind_NewLicenseKey,
 		"new-license-key", NULL,
@@ -87,9 +94,9 @@ AXL_SL_BEGIN_CMD_LINE_SWITCH_TABLE (CmdLineSwitchTable, CmdLineSwitchKind)
 		"new-product-key", NULL,
 		"Generate a new product key"
 		)
-	AXL_SL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_3 (
 		CmdLineSwitchKind_VerifyProductKey,
-		"verify", "check", NULL,
+		"y", "verify", "check", NULL,
 		"Verify a product key"
 		)
 	AXL_SL_CMD_LINE_SWITCH (
