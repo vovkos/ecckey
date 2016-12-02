@@ -29,5 +29,6 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ECCKEY_BIN_BASE_DIR}/${CONFIGURATION_SUFFI
 include (version.cmake)
 
 add_subdirectory (src)
+add_subdirectory (doc)
 
 #...............................................................................

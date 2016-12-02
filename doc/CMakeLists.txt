@@ -9,26 +9,9 @@
 #
 #...............................................................................
 
-set (
-	AXL_PATH_LIST
-
-	OPENSSL_INC_DIR
-	OPENSSL_LIB_DIR
-	AXL_CMAKE_DIR
-	RAGEL_EXE
-	SPHINX_BUILD_EXE
-	PDFLATEX_EXE
-	)
-
-set (
-	AXL_IMPORT_LIST
-
-	REQUIRED
-		openssl
-		axl
-	OPTIONAL
-		sphinx
-		latex
-	)
+if (SPHINX_FOUND)
+	add_subdirectory (build-guide)
+	add_subdirectory (manual)
+endif ()
 
 #...............................................................................

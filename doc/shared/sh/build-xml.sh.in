@@ -1,3 +1,4 @@
+#!/bin/bash
 #...............................................................................
 #
 #  This file is part of the ECCKey utility.
@@ -9,26 +10,11 @@
 #
 #...............................................................................
 
-set (
-	AXL_PATH_LIST
+set -e
 
-	OPENSSL_INC_DIR
-	OPENSSL_LIB_DIR
-	AXL_CMAKE_DIR
-	RAGEL_EXE
-	SPHINX_BUILD_EXE
-	PDFLATEX_EXE
-	)
+rm -rf ${XML_DIR}
+mkdir -p ${XML_DIR}
 
-set (
-	AXL_IMPORT_LIST
+echo Building ${DOC_NAME} XML files at ${XML_DIR}...
 
-	REQUIRED
-		openssl
-		axl
-	OPTIONAL
-		sphinx
-		latex
-	)
-
-#...............................................................................
+"${XMLGEN_EXE}" ${XMLGEN_CMD_LINE}

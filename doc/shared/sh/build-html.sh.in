@@ -1,3 +1,4 @@
+#!/bin/bash
 #...............................................................................
 #
 #  This file is part of the ECCKey utility.
@@ -9,26 +10,8 @@
 #
 #...............................................................................
 
-set (
-	AXL_PATH_LIST
+set -e
 
-	OPENSSL_INC_DIR
-	OPENSSL_LIB_DIR
-	AXL_CMAKE_DIR
-	RAGEL_EXE
-	SPHINX_BUILD_EXE
-	PDFLATEX_EXE
-	)
+echo Building ${DOC_NAME} HTML files at ${HTML_DIR}...
 
-set (
-	AXL_IMPORT_LIST
-
-	REQUIRED
-		openssl
-		axl
-	OPTIONAL
-		sphinx
-		latex
-	)
-
-#...............................................................................
+"${SPHINX_BUILD_EXE}" ${SPHINX_HTML_CMD_LINE}
