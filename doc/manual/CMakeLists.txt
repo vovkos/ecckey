@@ -9,8 +9,8 @@
 #
 #...............................................................................
 
-set (DOC_NAME      "Doxyrest Manual")
-set (TEX_BASE_NAME doxyrest-manual-${JANCY_VERSION_FILE_SUFFIX})
+set (DOC_NAME      "ECCKey Manual")
+set (TEX_BASE_NAME ecckey-manual-${ECCKEY_VERSION_FILE_SUFFIX})
 set (TEX_FILE_NAME ${TEX_BASE_NAME}.tex)
 set (PDF_FILE_NAME ${TEX_BASE_NAME}.pdf)
 set (SPHINX_HTML_THEME "sphinxdoc")

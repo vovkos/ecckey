@@ -23,8 +23,6 @@ echo Building ${DOC_NAME} PDF at ${PDF_DIR}...
 PREV_DIR=`pwd`
 cd ${TEX_DIR}
 
-cp ${DOXYREST_SPHINX_DIR}/doxyrest.sty .
-
 "${PDFLATEX_EXE}" ${PDFLATEX_TEXLIVE_CMD_LINE}
 "${PDFLATEX_EXE}" ${PDFLATEX_TEXLIVE_CMD_LINE}
 
