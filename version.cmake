@@ -10,7 +10,7 @@
 #...............................................................................
 
 set (ECCKEY_VERSION_MAJOR     1)
-set (ECCKEY_VERSION_MINOR     1)
+set (ECCKEY_VERSION_MINOR     0)
 set (ECCKEY_VERSION_REVISION  0)
 set (ECCKEY_VERSION_TAG)
 
