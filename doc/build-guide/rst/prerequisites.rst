@@ -12,9 +12,9 @@
 Prerequisites
 =============
 
-Before attempting to build Doxyrest, make sure you installed everything you might need.
+Before attempting to build ECCKey, make sure you installed everything you might need.
 
-The list of Doxyrest prerequisites is split into the following categories for your convenience:
+The list of ECCKey prerequisites is split into the following categories for your convenience:
 
 .. toctree::
 	:titlesonly:

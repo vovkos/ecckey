@@ -9,10 +9,10 @@
 ..
 .. .............................................................................
 
-Doxyrest Build Guide
+ECCKey Build Guide
 ====================
 
-This is a step-by-step guide for those who decide to build Doxyrest from sources.
+This is a step-by-step guide for those who decide to build ECCKey from sources.
 
 .. toctree::
 	:titlesonly:

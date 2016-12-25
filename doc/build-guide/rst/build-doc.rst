@@ -12,45 +12,29 @@
 Building Documentation
 ======================
 
-Doxyrest contains two documentation packages:
+ECCKey contains two documentation packages:
 
 * Build guide
 * Manual
 
-If you have required :ref:`prerequisites <optional-tools>` for building documentation, CMake should have created all the necessary shell scripts under: ``./build/doc/<doc-package>``
-
-``sphinx-build`` is always needed; ``pdflatex`` is also needed to build PDF.
-
-Resulting HTML pages will be placed at: ``./build/doc/<doc-package>/html``
-
-Resulting PDF will be placed at: ``./build/doc/<doc-package>/pdf``
+.. expand-macro:: build-doc-intro ./build/ecckey
 
 Build Guide
 -----------
 
-This is what you are reading right now.
-
-Located at: ``./doc/build-guide``
-
-Build steps:
-
-.. code-block:: bash
-
-	cd ./build/doc/build-guide
-	./build-html
-	./build-pdf
+.. expand-macro:: build-doc-build-guide ./build/ecckey
 
 Manual
 ------
 
-A manual on Doxyrest command-line tool
+A manual on the ECCKey command-line tool.
 
-Located at: ``./doc/manual`` (not yet, but soon)
+Documentation sources are located at: ``./doc/manual`` (not yet, but soon)
 
 Build steps:
 
 .. code-block:: bash
 
-	cd ./build/doc/manual
+	cd ./build/ecckey/doc/manual
 	./build-html
 	./build-pdf

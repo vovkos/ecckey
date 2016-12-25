@@ -12,7 +12,7 @@
 Building
 ========
 
-Once CMake configuration step completes, makefiles/project files are generated. You are now ready to build Doxyrest.
+.. expand-macro:: build-intro ECCKey
 
 .. toctree::
 	:titlesonly:
