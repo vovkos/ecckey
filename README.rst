@@ -12,6 +12,7 @@
 ECCKey
 ======
 .. image:: https://travis-ci.org/vovkos/ecckey.svg?branch=master
+	:target: https://travis-ci.org/vovkos/ecckey
 
 Abstract
 --------
