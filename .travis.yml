@@ -21,6 +21,19 @@ compiler:
     - gcc
     - clang
 
+env:
+    - TARGET_CPU=x86 BUILD_CONFIGURATION=Debug
+    - TARGET_CPU=x86 BUILD_CONFIGURATION=Release
+    - TARGET_CPU=amd64 BUILD_CONFIGURATION=Debug
+    - TARGET_CPU=amd64 BUILD_CONFIGURATION=Release
+
+matrix:
+    exclude:
+        - os: osx
+          env: TARGET_CPU=x86 BUILD_CONFIGURATION=Debug
+        - os: osx
+          env: TARGET_CPU=x86 BUILD_CONFIGURATION=Release
+
 before_install:
     - source travis/install-$TRAVIS_OS_NAME.sh
     - git clone http://github.com/vovkos/axl
@@ -30,7 +43,7 @@ script:
 
     - mkdir axl/build
     - cd axl/build
-    - cmake ..
+    - cmake .. -DAXL_CPU=$TARGET_CPU -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION
     - make
 
     - cd $THIS_DIR
@@ -38,5 +51,5 @@ script:
 
     - mkdir build
     - cd build
-    - cmake ..
+    - cmake .. -DAXL_CPU=$TARGET_CPU -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION
     - make
