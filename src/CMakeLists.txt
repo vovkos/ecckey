@@ -138,17 +138,12 @@ target_link_libraries (
 	axl_lex
 	axl_io
 	axl_core
+	${OPENSSL_CRYPTO_LIB_NAME}
 	)
 
-if (WIN32)
+if (UNIX)
 	target_link_libraries (
 		ecckey
-		libeay32MT
-		)
-elseif (UNIX)
-	target_link_libraries (
-		ecckey
-		crypto
 		dl
 		pthread
 		)
