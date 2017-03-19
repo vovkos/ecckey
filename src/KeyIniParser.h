@@ -25,11 +25,11 @@ protected:
 		Key_PrivateKey,
 	};
 
-	AXL_SL_BEGIN_STRING_HASH_TABLE_MAP (KeyMap, Key)
-		AXL_SL_HASH_TABLE_MAP_ENTRY ("curve",       Key_Curve)
-		AXL_SL_HASH_TABLE_MAP_ENTRY ("public-key",  Key_PublicKey)
-		AXL_SL_HASH_TABLE_MAP_ENTRY ("private-key", Key_PrivateKey)
-	AXL_SL_END_HASH_TABLE_MAP ()
+	AXL_SL_BEGIN_STRING_HASH_TABLE (KeyMap, Key)
+		AXL_SL_HASH_TABLE_ENTRY ("curve",       Key_Curve)
+		AXL_SL_HASH_TABLE_ENTRY ("public-key",  Key_PublicKey)
+		AXL_SL_HASH_TABLE_ENTRY ("private-key", Key_PrivateKey)
+	AXL_SL_END_HASH_TABLE ()
 
 protected:
 	bool m_isLicenseMatch;
