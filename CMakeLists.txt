@@ -24,11 +24,44 @@ set (ECCKEY_PACKAGE_DIR  ${CMAKE_CURRENT_BINARY_DIR}/package)
 
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ECCKEY_BIN_BASE_DIR}/${CONFIGURATION_SUFFIX_0})
 
+set (ECCKEY_INSTALL_BIN_SUBDIR bin)
+
+if (WIN32)
+	set (ECCKEY_INSTALL_DOC_SUBDIR     doc)
+	set (ECCKEY_INSTALL_LICENSE_SUBDIR license)
+else ()
+	set (ECCKEY_INSTALL_DOC_SUBDIR     share/${CMAKE_PROJECT_NAME}/doc)
+	set (ECCKEY_INSTALL_LICENSE_SUBDIR share/${CMAKE_PROJECT_NAME}/license)
+endif ()
+
 #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 include (version.cmake)
 
 add_subdirectory (src)
 add_subdirectory (doc)
+
+#. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+install (
+	DIRECTORY license/
+	DESTINATION ${ECCKEY_INSTALL_LICENSE_SUBDIR}
+	)
+
+#...............................................................................
+
+set (CPACK_PACKAGE_VERSION_MAJOR ${ECCKEY_VERSION_MAJOR})
+set (CPACK_PACKAGE_VERSION_MINOR ${ECCKEY_VERSION_MINOR})
+set (CPACK_PACKAGE_VERSION_PATCH ${ECCKEY_VERSION_REVISION})
+
+set (CPACK_SOURCE_GENERATOR TXZ)
+set (CPACK_SOURCE_IGNORE_FILES "/\\.;\\.user$;/build/;/travis/;/paths.cmake$")
+
+string (TOLOWER ${CMAKE_SYSTEM_NAME} OS_NAME)
+
+set (CPACK_PACKAGE_FILE_NAME ${CMAKE_PROJECT_NAME}-${OS_NAME}-${ECCKEY_VERSION_FILE_SUFFIX}-${TARGET_CPU})
+set (CPACK_SOURCE_PACKAGE_FILE_NAME ${CMAKE_PROJECT_NAME}-src-${ECCKEY_VERSION_FILE_SUFFIX})
+
+include (CPack)
 
 #...............................................................................

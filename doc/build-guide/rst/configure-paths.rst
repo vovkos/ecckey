@@ -31,7 +31,7 @@ On Windows you will need to specify paths to OpenSSL librariy -- they are unlike
 
 	set (OPENSSL_VERSION 1.0.1h)
 
-	if ("${AXL_CPU}" STREQUAL "amd64")
+	if ("${TARGET_CPU}" STREQUAL "amd64")
 		set (OPENSSL_INC_DIR    c:/Develop/openssl/openssl-win64-${OPENSSL_VERSION}/include)
 		set (OPENSSL_LIB_DIR    c:/Develop/openssl/openssl-win64-${OPENSSL_VERSION}/lib/vc/static)
 	else ()

@@ -156,4 +156,11 @@ if (UNIX)
 	endif ()
 endif ()
 
+#. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+install (
+	TARGETS ecckey
+	DESTINATION ${ECCKEY_INSTALL_BIN_SUBDIR}
+	)
+
 #...............................................................................
