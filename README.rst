@@ -13,6 +13,8 @@ ECCKey
 ======
 .. image:: https://travis-ci.org/vovkos/ecckey.svg?branch=master
 	:target: https://travis-ci.org/vovkos/ecckey
+.. image:: https://ci.appveyor.com/api/projects/status/fa29abkfu349432x?svg=true
+	:target: https://ci.appveyor.com/project/vovkos/ecckey
 
 Abstract
 --------
