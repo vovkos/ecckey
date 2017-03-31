@@ -32,21 +32,18 @@ exit -1
 
 :msvc10
 set TOOLCHAIN=msvc10
-set VS_COMMON_TOOLS=%VS100COMNTOOLS%
 set CMAKE_GENERATOR=Visual Studio 10 2010
 shift
 goto :loop
 
 :msvc12
 set TOOLCHAIN=msvc12
-set VS_COMMON_TOOLS=%VS120COMNTOOLS%
 set CMAKE_GENERATOR=Visual Studio 12 2013
 shift
 goto :loop
 
 :msvc14
 set TOOLCHAIN=msvc14
-set VS_COMMON_TOOLS=%VS140COMNTOOLS%
 set CMAKE_GENERATOR=Visual Studio 14 2015
 shift
 goto :loop
@@ -79,13 +76,16 @@ if "%CONFIGURATION%" == "" (set CONFIGURATION=Release)
 
 set RAGEL_DOWNLOAD_URL=http://downloads.yorickpeterse.com/files/ragel-68-visualstudio2012.7z
 
-set CMAKE_FLAGS=-G "%CMAKE_GENERATOR%%CMAKE_GENERATOR_SUFFIX%" -DTARGET_CPU=%TARGET_CPU%
+set CMAKE_CONFIGURE_FLAGS=-G "%CMAKE_GENERATOR%%CMAKE_GENERATOR_SUFFIX%"
 
-set MSBUILD_FLAGS=/nologo /verbosity:minimal /consoleloggerparameters:Summary /maxcpucount /property:configuration=%CONFIGURATION%
+set CMAKE_BUILD_FLAGS= ^
+	--config %CONFIGURATION% ^
+	-- ^
+	/nologo ^
+	/verbosity:minimal ^
+	/consoleloggerparameters:Summary
 
 echo ---------------------------------------------------------------------------
 echo RAGEL_DOWNLOAD_URL: %RAGEL_DOWNLOAD_URL%
 echo OPENSSL_DIR:        %OPENSSL_DIR%
-echo CMAKE_FLAGS:        %CMAKE_FLAGS%
-echo MSBUILD_FLAGS:      %MSBUILD_FLAGS%
 echo ---------------------------------------------------------------------------
