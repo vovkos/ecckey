@@ -14,4 +14,4 @@ ECCKey Documentation Index
 
 Follow the links below for additional information.
 
-* `ECCKey Build Guide <http://docs.tibbo.com/ecckey/build-guide>`_
+* `ECCKey Build Guide <build-guide/index.html>`_
