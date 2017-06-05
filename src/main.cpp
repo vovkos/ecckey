@@ -287,6 +287,8 @@ main (
 	setvbuf (stdout, NULL, _IOLBF, 1024);
 #endif
 
+	srand ((int) sys::getTimestamp ());
+
 	g::getModule ()->setTag ("ecckey");
 	lex::registerParseErrorProvider ();
 	cry::registerCryptoErrorProvider ();
