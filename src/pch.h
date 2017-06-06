@@ -16,6 +16,7 @@
 #include "axl_cry_EcKey.h"
 #include "axl_io_FilePathUtils.h"
 #include "axl_sys_Time.h"
+#include "axl_enc_Base32Encoding.h"
 
 using namespace axl;
 

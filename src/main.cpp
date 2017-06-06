@@ -160,67 +160,6 @@ newLicenseKey (CmdLine* cmdLine)
 }
 
 int
-newProductKey (CmdLine* cmdLine)
-{
-	bool result;
-
-	if (cmdLine->m_licensePrivateKey.isEmpty ())
-	{
-		KeyIniParser parser (cmdLine);
-		result = parser.parseFile (cmdLine->m_licenseFileName);
-		if (!result)
-		{
-			printf (
-				"error reading %s: %s\n",
-				cmdLine->m_licenseFileName.sz (),
-				err::getLastErrorDescription ().sz ()
-				);
-			return -1;
-		}
-	}
-
-	cry::EcKey key (cmdLine->m_curveId);
-	result = key.setPrivateKeyHexString (cmdLine->m_licensePrivateKey);
-	if (!result)
-	{
-		printf (
-			"invalid private key '%s': %s\n",
-			cmdLine->m_licensePrivateKey.sz (),
-			err::getLastErrorDescription ().sz ()
-			);
-		return -1;
-	}
-
-	sl::String productKey = cry::generateEcProductKey (key, cmdLine->m_userName, cmdLine->m_hyphenDistance);
-
-	EC_GROUP* group = key.getGroup ();
-	BIGNUM* privateKey = key.getPrivateKey ();
-
-	cry::EcPoint publicKey (group);
-	publicKey.mul (group, privateKey);
-	key.setPublicKey (publicKey);
-
-	bool isValidKey = cry::verifyEcProductKey (key, cmdLine->m_userName, productKey);
-	if (!isValidKey)
-	{
-		printf ("error: unable to verify newly created product key\n");
-		return -1;
-	}
-
-	if (!cmdLine->m_license.isEmpty ())
-		printf ("license     = %s\n", cmdLine->m_license.sz ());
-
-	printf (
-		"user        = %s\n"
-		"product key = %s\n",
-		cmdLine->m_userName.sz (),
-		productKey.sz ()
-		);
-
-	return 0;
-}
-
-int
 verifyProductKey (CmdLine* cmdLine)
 {
 	bool result;
@@ -252,17 +191,132 @@ verifyProductKey (CmdLine* cmdLine)
 		return -1;
 	}
 
-	result = cry::verifyEcProductKey (key, cmdLine->m_userName, cmdLine->m_productKey);
-	if (!result)
+	size_t dueTimeIndex = cmdLine->m_productKey.find (':');
+
+	if (dueTimeIndex == -1)
 	{
-		printf ("invalid user-name/product-key combination\n");
-		return -1;
+		result = cry::verifyEcProductKey (key, cmdLine->m_userName, cmdLine->m_productKey);
+		if (!result)
+		{
+			printf ("invalid user-name/product-key combination\n");
+			return -1;
+		}
 	}
 	else
 	{
-		printf ("product key is valid\n");
-		return 0;
+		sl::StringRef productKey = cmdLine->m_productKey.getSubString (0, dueTimeIndex);
+		sl::StringRef dueTimeString = cmdLine->m_productKey.getSubString (dueTimeIndex + 1);
+
+		sl::Array <char> dueTimeBuffer = enc::Base32Encoding::decode (dueTimeString);
+		if (dueTimeBuffer.getCount () < sizeof (uint32_t))
+		{
+			printf ("invalid product-key\n");
+			return -1;
+		}
+
+		sl::String userName = cmdLine->m_userName;
+		userName.append (dueTimeBuffer, sizeof (uint32_t));
+
+		result = cry::verifyEcProductKey (key, userName, productKey);
+		if (!result)
+		{
+			printf ("invalid user-name/product-key combination\n");
+			return -1;
+		}
+
+		uint64_t dueTime = (*(uint32_t*) dueTimeBuffer.cp ());
+		dueTime <<= 32;
+
+		if (dueTime < sys::getTimestamp ())
+		{
+			printf ("product key is valid, but expired\n");
+			return -2;
+		}
 	}
+
+	printf ("product key is valid\n");
+	return 0;
+}
+
+int
+newProductKey (CmdLine* cmdLine)
+{
+	bool result;
+
+	if (cmdLine->m_licensePrivateKey.isEmpty ())
+	{
+		KeyIniParser parser (cmdLine);
+		result = parser.parseFile (cmdLine->m_licenseFileName);
+		if (!result)
+		{
+			printf (
+				"error reading %s: %s\n",
+				cmdLine->m_licenseFileName.sz (),
+				err::getLastErrorDescription ().sz ()
+				);
+			return -1;
+		}
+	}
+
+	cry::EcKey key (cmdLine->m_curveId);
+	result = key.setPrivateKeyHexString (cmdLine->m_licensePrivateKey);
+	if (!result)
+	{
+		printf (
+			"invalid private key '%s': %s\n",
+			cmdLine->m_licensePrivateKey.sz (),
+			err::getLastErrorDescription ().sz ()
+			);
+		return -1;
+	}
+
+	sl::String productKey;
+
+	uint64_t dueTime;
+
+	if (!cmdLine->m_timeLimit)
+	{
+		productKey = cry::generateEcProductKey (key, cmdLine->m_userName, cmdLine->m_hyphenDistance);
+	}
+	else
+	{
+		dueTime = sys::getTimestamp ();
+		dueTime += (uint64_t) cmdLine->m_timeLimit * 24 * 60 * 60 * 1000 * 10000;
+		dueTime >>= 32;
+
+		sl::String userName = cmdLine->m_userName;
+		userName.append ((char*) &dueTime, 4);
+
+		productKey = cry::generateEcProductKey (key, userName, cmdLine->m_hyphenDistance);
+
+		productKey += ':';
+		productKey += enc::Base32Encoding::encode (&dueTime, 4, -1);
+	}
+
+	if (!cmdLine->m_license.isEmpty ())
+		printf ("license     = %s\n", cmdLine->m_license.sz ());
+
+	printf (
+		"user        = %s\n"
+		"product key = %s\n",
+		cmdLine->m_userName.sz (),
+		productKey.sz ()
+		);
+
+	if (cmdLine->m_timeLimit)
+	{
+		printf (
+			"time limit  = %d days\n"
+			"expires on  = %s\n",
+			cmdLine->m_timeLimit,
+			sys::Time (dueTime << 32).format ().sz ()
+			);
+	}
+
+	cmdLine->m_productKey = productKey;
+
+	printf ("\nverifying...\n");
+	return verifyProductKey (cmdLine);
 }
 
 //..............................................................................

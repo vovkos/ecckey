@@ -20,6 +20,7 @@ CmdLine::CmdLine ()
 	m_hyphenDistance = 6;
 	m_licenseFileName = "ecckey.conf";
 	m_curveId = NID_secp112r1;
+	m_timeLimit = 0;
 }
 
 //..............................................................................
@@ -106,6 +107,10 @@ CmdLineParser::onSwitch (
 
 	case CmdLineSwitchKind_ProductKey:
 		m_cmdLine->m_productKey = value;
+		break;
+
+	case CmdLineSwitchKind_TimeLimit:
+		m_cmdLine->m_timeLimit = atoi (value.sz ());
 		break;
 	}
 
