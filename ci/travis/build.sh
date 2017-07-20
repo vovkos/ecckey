@@ -9,10 +9,18 @@
 #
 #...............................................................................
 
-brew update
-brew install ragel
+THIS_DIR=`pwd`
 
-# openssl is already installed, but not linked
+mkdir axl/build
+pushd axl/build
+cmake .. -DTARGET_CPU=$TARGET_CPU -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION
+make
+popd
 
-echo "set (OPENSSL_INC_DIR /usr/local/opt/openssl/include)" >> paths.cmake
-echo "set (OPENSSL_LIB_DIR /usr/local/opt/openssl/lib)" >> paths.cmake
+echo "set (AXL_CMAKE_DIR $THIS_DIR/axl/cmake $THIS_DIR/axl/build/cmake)" >> paths.cmake
+
+mkdir build
+pushd build
+cmake .. -DTARGET_CPU=$TARGET_CPU -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION
+make
+popd
