@@ -156,6 +156,21 @@ if (UNIX)
 	endif ()
 endif ()
 
+if (WIN32)
+	set (_DEBUG_SUFFIX $<$<CONFIG:Debug>:d>)
+
+	add_custom_command (
+		TARGET ecckey
+		POST_BUILD
+		COMMAND
+			echo Copying DLL files for ecckey...
+		COMMAND
+			${CMAKE_COMMAND} -E copy
+			${OPENSSL_DLL_DIR}/${OPENSSL_CRYPTO_DLL_NAME}.dll
+			${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CONFIGURATION_SUFFIX}
+		)
+endif ()
+
 #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 install (
