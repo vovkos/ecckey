@@ -156,7 +156,7 @@ if (UNIX)
 	endif ()
 endif ()
 
-if (WIN32)
+if (WIN32 AND OPENSSL_DLL_DIR AND OPENSSL_CRYPTO_DLL_NAME)
 	set (_DEBUG_SUFFIX $<$<CONFIG:Debug>:d>)
 
 	add_custom_command (
