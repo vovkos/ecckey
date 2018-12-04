@@ -65,6 +65,15 @@ KeyIniParser::onKeyValue (
 			}
 
 			break;
+
+		case Key_RandomLength:
+			m_cmdLine->m_curveId = NID_undef;
+			m_cmdLine->m_randomLength = atoi (value.sz ());
+			break;
+
+		case Key_HyphenDistance:
+			m_cmdLine->m_hyphenDistance = atoi (value.sz ());
+			break;
 		}
 
 	return true;

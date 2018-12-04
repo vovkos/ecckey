@@ -33,6 +33,8 @@ struct CmdLine
 	size_t m_hyphenDistance;
 	uint_t m_curveId;
 	uint_t m_timeLimit; // in days
+	size_t m_randomLength;
+	size_t m_keyCount;
 
 	sl::String m_licenseFileName;
 	sl::String m_license;
@@ -66,6 +68,7 @@ enum CmdLineSwitchKind
 	CmdLineSwitchKind_UserName,
 	CmdLineSwitchKind_ProductKey,
 	CmdLineSwitchKind_TimeLimit,
+	CmdLineSwitchKind_Count,
 };
 
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -155,6 +158,11 @@ AXL_SL_BEGIN_CMD_LINE_SWITCH_TABLE (CmdLineSwitchTable, CmdLineSwitchKind)
 		CmdLineSwitchKind_TimeLimit,
 		"t", "time-limit", "<days>",
 		"Specify time limit (in days)"
+		)
+	AXL_SL_CMD_LINE_SWITCH_2 (
+		CmdLineSwitchKind_Count,
+		"n", "count", "<count>",
+		"Specify product key count"
 		)
 AXL_SL_END_CMD_LINE_SWITCH_TABLE ()
 

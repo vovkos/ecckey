@@ -21,6 +21,8 @@ CmdLine::CmdLine ()
 	m_licenseFileName = "ecckey.conf";
 	m_curveId = NID_secp112r1;
 	m_timeLimit = 0;
+	m_randomLength = 0;
+	m_keyCount = 1;
 }
 
 //..............................................................................
@@ -112,6 +114,10 @@ CmdLineParser::onSwitch (
 	case CmdLineSwitchKind_TimeLimit:
 		m_cmdLine->m_timeLimit = atoi (value.sz ());
 		break;
+
+	case CmdLineSwitchKind_Count:
+		m_cmdLine->m_keyCount = atoi (value.sz ());
+		break;
 	}
 
 	return true;
@@ -122,7 +128,7 @@ CmdLineParser::finalize ()
 {
 	if (!(m_cmdLine->m_flags & (CmdLineFlag_NewProductKey | CmdLineFlag_VerifyProductKey)))
 	{
-		if (!m_cmdLine->m_userName.isEmpty ()) // e.g. ecckey -u user
+		if (!m_cmdLine->m_userName.isEmpty () || !m_cmdLine->m_license.isEmpty ()) // e.g. ecckey -u user
 			m_cmdLine->m_flags |= CmdLineFlag_NewProductKey;
 	}
 	else if (m_cmdLine->m_userName.isEmpty ())

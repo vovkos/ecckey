@@ -23,12 +23,16 @@ protected:
 		Key_Curve,
 		Key_PublicKey,
 		Key_PrivateKey,
+		Key_RandomLength,
+		Key_HyphenDistance,
 	};
 
 	AXL_SL_BEGIN_STRING_HASH_TABLE (KeyMap, Key)
-		AXL_SL_HASH_TABLE_ENTRY ("curve",       Key_Curve)
-		AXL_SL_HASH_TABLE_ENTRY ("public-key",  Key_PublicKey)
-		AXL_SL_HASH_TABLE_ENTRY ("private-key", Key_PrivateKey)
+		AXL_SL_HASH_TABLE_ENTRY ("curve",           Key_Curve)
+		AXL_SL_HASH_TABLE_ENTRY ("public-key",      Key_PublicKey)
+		AXL_SL_HASH_TABLE_ENTRY ("private-key",     Key_PrivateKey)
+		AXL_SL_HASH_TABLE_ENTRY ("random-length",   Key_RandomLength)
+		AXL_SL_HASH_TABLE_ENTRY ("hyphen-distance", Key_HyphenDistance)
 	AXL_SL_END_HASH_TABLE ()
 
 protected:

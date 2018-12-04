@@ -258,6 +258,36 @@ newProductKey (CmdLine* cmdLine)
 		}
 	}
 
+	if (cmdLine->m_randomLength)
+	{
+		char buffer [256];
+		sl::Array <char> data (ref::BufKind_Stack, buffer, sizeof (buffer));
+		data.setCount (cmdLine->m_randomLength);
+
+		static char base [] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+		for (size_t i = 0; i < cmdLine->m_keyCount; i++)
+		{
+			::RAND_bytes ((uchar_t*) data.p (), cmdLine->m_randomLength);
+
+			sl::String key;
+			for (size_t i = 0, j = 1; i < cmdLine->m_randomLength; i++, j++)
+			{
+				key += base [data [i] % lengthof (base)];
+
+				if (j % cmdLine->m_hyphenDistance == 0)
+					key += '-';
+			}
+
+			if (key.isSuffix ("-"))
+				key.chop (1);
+
+			printf ("product key = %s\n", key.sz ());
+		}
+
+		return 0;
+	}
+
 	cry::EcKey key (cmdLine->m_curveId);
 	result = key.setPrivateKeyHexString (cmdLine->m_licensePrivateKey);
 	if (!result)
