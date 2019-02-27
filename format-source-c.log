@@ -1,0 +1,418 @@
+----------------------
+27/02/2019 18:01:54 - C:\Projects\repos\ioninja\ecckey\src\CmdLine.cpp
+----------------------
+[-] CmdLine::CmdLine ()
+[+] CmdLine::CmdLine()
+[-] CmdLineParser::onSwitch (
+[+] CmdLineParser::onSwitch(
+[-] 	switch (switchKind)
+[+] 	switch(switchKind)
+[-] 		m_cmdLine->m_curveId = OBJ_sn2nid (value.sz ());
+[+] 		m_cmdLine->m_curveId = OBJ_sn2nid(value.sz());
+[-] 			err::setFormatStringError ("invalid curve '%s'", value.sz ());
+[+] 			err::setFormatStringError("invalid curve '%s'", value.sz ());
+[-] 		m_cmdLine->m_hyphenDistance = atoi (value.sz ());
+[+] 		m_cmdLine->m_hyphenDistance = atoi(value.sz());
+[-] 			err::setFormatStringError ("invalid hyphen distance '%s'", value.sz ());
+[+] 			err::setFormatStringError("invalid hyphen distance '%s'", value.sz ());
+[-] 		m_cmdLine->m_timeLimit = atoi (value.sz ());
+[+] 		m_cmdLine->m_timeLimit = atoi(value.sz());
+[-] 		m_cmdLine->m_keyCount = atoi (value.sz ());
+[+] 		m_cmdLine->m_keyCount = atoi(value.sz());
+[-] CmdLineParser::finalize ()
+[+] CmdLineParser::finalize()
+[-] 		if (!m_cmdLine->m_userName.isEmpty () || !m_cmdLine->m_license.isEmpty ()) // e.g. ecckey -u user
+[+] 		if (!m_cmdLine->m_userName.isEmpty() || !m_cmdLine->m_license.isEmpty()) // e.g. ecckey -u user
+[-] 	else if (m_cmdLine->m_userName.isEmpty ())
+[+] 	else if (m_cmdLine->m_userName.isEmpty())
+[-] 		err::setFormatStringError ("missing user name (-u switch)");
+[+] 		err::setFormatStringError("missing user name (-u switch)");
+[-] 	if ((m_cmdLine->m_flags & CmdLineFlag_VerifyProductKey) && m_cmdLine->m_productKey.isEmpty ())
+[+] 	if ((m_cmdLine->m_flags & CmdLineFlag_VerifyProductKey) && m_cmdLine->m_productKey.isEmpty())
+[-] 		err::setFormatStringError ("missing product key (-p switch)");
+[+] 		err::setFormatStringError("missing product key (-p switch)");
+----------------------
+27/02/2019 18:01:54 - C:\Projects\repos\ioninja\ecckey\src\KeyIniParser.cpp
+----------------------
+[-] KeyIniParser::KeyIniParser (CmdLine* cmdLine)
+[+] KeyIniParser::KeyIniParser(CmdLine* cmdLine)
+[-] KeyIniParser::onSection (const sl::StringRef& sectionName)
+[+] KeyIniParser::onSection(const sl::StringRef& sectionName)
+[-] 	if (m_cmdLine->m_license.isEmpty ())
+[+] 	if (m_cmdLine->m_license.isEmpty())
+[-] KeyIniParser::onKeyValue (
+[+] KeyIniParser::onKeyValue(
+[-] 	KeyMap::Iterator it = KeyMap::find (keyName);
+[+] 	KeyMap::Iterator it = KeyMap::find(keyName);
+[-] 		switch (it->m_value)
+[+] 		switch(it->m_value)
+[-] 			m_cmdLine->m_curveId = OBJ_sn2nid (value.sz ());
+[+] 			m_cmdLine->m_curveId = OBJ_sn2nid(value.sz());
+[-] 				err::setFormatStringError ("invalid curve '%s'", value.sz ());
+[+] 				err::setFormatStringError("invalid curve '%s'", value.sz ());
+[-] 			m_cmdLine->m_randomLength = atoi (value.sz ());
+[+] 			m_cmdLine->m_randomLength = atoi(value.sz());
+[-] 			m_cmdLine->m_hyphenDistance = atoi (value.sz ());
+[+] 			m_cmdLine->m_hyphenDistance = atoi(value.sz());
+----------------------
+27/02/2019 18:01:54 - C:\Projects\repos\ioninja\ecckey\src\main.cpp
+----------------------
+[-] printVersion ()
+[+] printVersion()
+[-] 	printf (
+[+] 	printf(
+[-] printUsage ()
+[+] printUsage()
+[-] 	printVersion ();
+[+] 	printVersion();
+[-] 	sl::String helpString = CmdLineSwitchTable::getHelpString ();
+[+] 	sl::String helpString = CmdLineSwitchTable::getHelpString();
+[-] 	printf ("Usage: ecckey <options>...\n%s", helpString.sz ());
+[+] 	printf("Usage: ecckey <options>...\n%s", helpString.sz ());
+[-] listCurves (CmdLine* cmdLine)
+[+] listCurves(CmdLine* cmdLine)
+[-] 	size_t count = EC_get_builtin_curves (NULL, 0);
+[+] 	size_t count = EC_get_builtin_curves(NULL, 0);
+[-] 	sl::Array <EC_builtin_curve> curveArray;
+[+] 	sl::Array<EC_builtin_curve> curveArray;
+[-] 	curveArray.setCount (count);
+[+] 	curveArray.setCount(count);
+[-] 	count = EC_get_builtin_curves (curveArray, count);
+[+] 	count = EC_get_builtin_curves(curveArray, count);
+[-] 			printf ("%s\n", OBJ_nid2sn (curveArray [i].nid));
+[+] 			printf("%s\n", OBJ_nid2sn (curveArray [i].nid));
+[-] 			printf (
+[+] 			printf(
+[-] 				curveArray [i].nid,
+[+] 				curveArray[i].nid,
+[-] 				OBJ_nid2sn (curveArray [i].nid),
+[+] 				OBJ_nid2sn(curveArray[i].nid),
+[-] 				curveArray [i].comment
+[+] 				curveArray[i].comment
+[-] newLicenseFile (CmdLine* cmdLine)
+[+] newLicenseFile(CmdLine* cmdLine)
+[-] 	bool doesExist = io::doesFileExist (cmdLine->m_licenseFileName);
+[+] 	bool doesExist = io::doesFileExist(cmdLine->m_licenseFileName);
+[-] 		printf ("file %s already exists\n", cmdLine->m_licenseFileName.sz ());
+[+] 		printf("file %s already exists\n", cmdLine->m_licenseFileName.sz ());
+[-] 	bool result = file.open (cmdLine->m_licenseFileName);
+[+] 	bool result = file.open(cmdLine->m_licenseFileName);
+[-] 		printf (
+[+] 		printf(
+[-] 			err::getLastErrorDescription ().sz ()
+[+] 			err::getLastErrorDescription().sz()
+[-] 	cry::EcKey key (cmdLine->m_curveId);
+[+] 	cry::EcKey key(cmdLine->m_curveId);
+[-] 	key.generateKey ();
+[+] 	key.generateKey();
+[-] 	cry::EcPoint publicKey = key.getPublicKey ();
+[+] 	cry::EcPoint publicKey = key.getPublicKey();
+[-] 	cry::BigNum privateKey = key.getPrivateKey ();
+[+] 	cry::BigNum privateKey = key.getPrivateKey();
+[-] 	buffer.format (
+[+] 	buffer.format(
+[-] 		OBJ_nid2sn (cmdLine->m_curveId),
+[+] 		OBJ_nid2sn(cmdLine->m_curveId),
+[-] 		publicKey.getHexString (key.getGroup ()).sz (),
+[+] 		publicKey.getHexString(key.getGroup()).sz(),
+[-] 		privateKey.getHexString ().sz ()
+[+] 		privateKey.getHexString().sz()
+[-] 	privateKey.detach ();
+[+] 	privateKey.detach();
+[-] 	publicKey.detach ();
+[+] 	publicKey.detach();
+[-] 	file.write (buffer, buffer.getLength ());
+[+] 	file.write(buffer, buffer.getLength());
+[-] newLicenseKey (CmdLine* cmdLine)
+[+] newLicenseKey(CmdLine* cmdLine)
+[-] 	cry::EcKey key (cmdLine->m_curveId);
+[+] 	cry::EcKey key(cmdLine->m_curveId);
+[-] 	key.generateKey ();
+[+] 	key.generateKey();
+[-] 	cry::EcPoint publicKey = key.getPublicKey ();
+[+] 	cry::EcPoint publicKey = key.getPublicKey();
+[-] 	cry::BigNum privateKey = key.getPrivateKey ();
+[+] 	cry::BigNum privateKey = key.getPrivateKey();
+[-] 	printf (
+[+] 	printf(
+[-] 		OBJ_nid2sn (cmdLine->m_curveId),
+[+] 		OBJ_nid2sn(cmdLine->m_curveId),
+[-] 		publicKey.getHexString (key.getGroup ()).sz (),
+[+] 		publicKey.getHexString(key.getGroup()).sz(),
+[-] 		privateKey.getHexString ().sz ()
+[+] 		privateKey.getHexString().sz()
+[-] 	privateKey.detach ();
+[+] 	privateKey.detach();
+[-] 	publicKey.detach ();
+[+] 	publicKey.detach();
+[-] 	sl::String sampleProductKey = cry::generateEcProductKey (
+[+] 	sl::String sampleProductKey = cry::generateEcProductKey(
+[-] 	bool isValidKey = cry::verifyEcProductKey (key, sampleUserName, sampleProductKey);
+[+] 	bool isValidKey = cry::verifyEcProductKey(key, sampleUserName, sampleProductKey);
+[-] 		printf ("error: unable to verify sample product key\n");
+[+] 		printf("error: unable to verify sample product key\n");
+[-] 	printf (
+[+] 	printf(
+[-] 		sampleUserName.sz (),
+[+] 		sampleUserName.sz(),
+[-] 		sampleProductKey.sz ()
+[+] 		sampleProductKey.sz()
+[-] verifyProductKey (CmdLine* cmdLine)
+[+] verifyProductKey(CmdLine* cmdLine)
+[-] 	if (cmdLine->m_licensePublicKey.isEmpty ())
+[+] 	if (cmdLine->m_licensePublicKey.isEmpty())
+[-] 		KeyIniParser parser (cmdLine);
+[+] 		KeyIniParser parser(cmdLine);
+[-] 		result = parser.parseFile (cmdLine->m_licenseFileName);
+[+] 		result = parser.parseFile(cmdLine->m_licenseFileName);
+[-] 			printf (
+[+] 			printf(
+[-] 				cmdLine->m_licenseFileName.sz (),
+[+] 				cmdLine->m_licenseFileName.sz(),
+[-] 				err::getLastErrorDescription ().sz ()
+[+] 				err::getLastErrorDescription().sz()
+[-] 	cry::EcKey key (cmdLine->m_curveId);
+[+] 	cry::EcKey key(cmdLine->m_curveId);
+[-] 	result = key.setPublicKeyHexString (cmdLine->m_licensePublicKey);
+[+] 	result = key.setPublicKeyHexString(cmdLine->m_licensePublicKey);
+[-] 		printf (
+[+] 		printf(
+[-] 			cmdLine->m_licensePublicKey.sz (),
+[+] 			cmdLine->m_licensePublicKey.sz(),
+[-] 			err::getLastErrorDescription ().sz ()
+[+] 			err::getLastErrorDescription().sz()
+[-] 	size_t dueTimeIndex = cmdLine->m_productKey.find (':');
+[+] 	size_t dueTimeIndex = cmdLine->m_productKey.find(':');
+[-] 		result = cry::verifyEcProductKey (key, cmdLine->m_userName, cmdLine->m_productKey);
+[+] 		result = cry::verifyEcProductKey(key, cmdLine->m_userName, cmdLine->m_productKey);
+[-] 			printf ("invalid user-name/product-key combination\n");
+[+] 			printf("invalid user-name/product-key combination\n");
+[-] 		sl::StringRef productKey = cmdLine->m_productKey.getSubString (0, dueTimeIndex);
+[+] 		sl::StringRef productKey = cmdLine->m_productKey.getSubString(0, dueTimeIndex);
+[-] 		sl::StringRef dueTimeString = cmdLine->m_productKey.getSubString (dueTimeIndex + 1);
+[+] 		sl::StringRef dueTimeString = cmdLine->m_productKey.getSubString(dueTimeIndex + 1);
+[-] 		sl::Array <char> dueTimeBuffer = enc::Base32Encoding::decode (dueTimeString);
+[+] 		sl::Array<char> dueTimeBuffer = enc::Base32Encoding::decode(dueTimeString);
+[-] 		if (dueTimeBuffer.getCount () < sizeof (uint32_t))
+[+] 		if (dueTimeBuffer.getCount() < sizeof(uint32_t))
+[-] 			printf ("invalid product-key\n");
+[+] 			printf("invalid product-key\n");
+[-] 		userName.append (dueTimeBuffer, sizeof (uint32_t));
+[+] 		userName.append(dueTimeBuffer, sizeof(uint32_t));
+[-] 		result = cry::verifyEcProductKey (key, userName, productKey);
+[+] 		result = cry::verifyEcProductKey(key, userName, productKey);
+[-] 			printf ("invalid user-name/product-key combination\n");
+[+] 			printf("invalid user-name/product-key combination\n");
+[-] 		uint64_t dueTime = (*(uint32_t*) dueTimeBuffer.cp ());
+[+] 		uint64_t dueTime = (*(uint32_t*)dueTimeBuffer.cp());
+[-] 		if (dueTime < sys::getTimestamp ())
+[+] 		if (dueTime < sys::getTimestamp())
+[-] 			printf ("product key is valid, but expired\n");
+[+] 			printf("product key is valid, but expired\n");
+[-] 	printf ("product key is valid\n");
+[+] 	printf("product key is valid\n");
+[-] newProductKey (CmdLine* cmdLine)
+[+] newProductKey(CmdLine* cmdLine)
+[-] 	if (cmdLine->m_licensePrivateKey.isEmpty ())
+[+] 	if (cmdLine->m_licensePrivateKey.isEmpty())
+[-] 		KeyIniParser parser (cmdLine);
+[+] 		KeyIniParser parser(cmdLine);
+[-] 		result = parser.parseFile (cmdLine->m_licenseFileName);
+[+] 		result = parser.parseFile(cmdLine->m_licenseFileName);
+[-] 			printf (
+[+] 			printf(
+[-] 				cmdLine->m_licenseFileName.sz (),
+[+] 				cmdLine->m_licenseFileName.sz(),
+[-] 				err::getLastErrorDescription ().sz ()
+[+] 				err::getLastErrorDescription().sz()
+[-] 		char buffer [256];
+[+] 		char buffer[256];
+[-] 		sl::Array <char> data (ref::BufKind_Stack, buffer, sizeof (buffer));
+[+] 		sl::Array<char> data(ref::BufKind_Stack, buffer, sizeof(buffer));
+[-] 		data.setCount (cmdLine->m_randomLength);
+[+] 		data.setCount(cmdLine->m_randomLength);
+[-] 		static char base [] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+[+] 		static char base[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+[-] 			::RAND_bytes ((uchar_t*) data.p (), cmdLine->m_randomLength);
+[+] 			::RAND_bytes((uchar_t*)data.p(), cmdLine->m_randomLength);
+[-] 				key += base [data [i] % lengthof (base)];
+[+] 				key += base[data[i] % lengthof(base)];
+[-] 			if (key.isSuffix ("-"))
+[+] 			if (key.isSuffix("-"))
+[-] 				key.chop (1);
+[+] 				key.chop(1);
+[-] 			printf ("product key = %s\n", key.sz ());
+[+] 			printf("product key = %s\n", key.sz ());
+[-] 	cry::EcKey key (cmdLine->m_curveId);
+[+] 	cry::EcKey key(cmdLine->m_curveId);
+[-] 	result = key.setPrivateKeyHexString (cmdLine->m_licensePrivateKey);
+[+] 	result = key.setPrivateKeyHexString(cmdLine->m_licensePrivateKey);
+[-] 		printf (
+[+] 		printf(
+[-] 			cmdLine->m_licensePrivateKey.sz (),
+[+] 			cmdLine->m_licensePrivateKey.sz(),
+[-] 			err::getLastErrorDescription ().sz ()
+[+] 			err::getLastErrorDescription().sz()
+[-] 		productKey = cry::generateEcProductKey (key, cmdLine->m_userName, cmdLine->m_hyphenDistance);
+[+] 		productKey = cry::generateEcProductKey(key, cmdLine->m_userName, cmdLine->m_hyphenDistance);
+[-] 		dueTime = sys::getTimestamp ();
+[+] 		dueTime = sys::getTimestamp();
+[-] 		dueTime += (uint64_t) cmdLine->m_timeLimit * 24 * 60 * 60 * 1000 * 10000;
+[+] 		dueTime += (uint64_t)cmdLine->m_timeLimit * 24 * 60 * 60 * 1000 * 10000;
+[-] 		userName.append ((char*) &dueTime, 4);
+[+] 		userName.append((char*) &dueTime, 4);
+[-] 		productKey = cry::generateEcProductKey (key, userName, cmdLine->m_hyphenDistance);
+[+] 		productKey = cry::generateEcProductKey(key, userName, cmdLine->m_hyphenDistance);
+[-] 		productKey += enc::Base32Encoding::encode (&dueTime, 4, -1);
+[+] 		productKey += enc::Base32Encoding::encode(&dueTime, 4, -1);
+[-] 	if (!cmdLine->m_license.isEmpty ())
+[+] 	if (!cmdLine->m_license.isEmpty())
+[-] 		printf ("license     = %s\n", cmdLine->m_license.sz ());
+[+] 		printf("license     = %s\n", cmdLine->m_license.sz ());
+[-] 	printf (
+[+] 	printf(
+[-] 		cmdLine->m_userName.sz (),
+[+] 		cmdLine->m_userName.sz(),
+[-] 		productKey.sz ()
+[+] 		productKey.sz()
+[-] 		printf (
+[+] 		printf(
+[-] 			sys::Time (dueTime << 32).format ().sz ()
+[+] 			sys::Time(dueTime << 32).format().sz()
+[-] 	printf ("\nverifying...\n");
+[+] 	printf("\nverifying...\n");
+[-] 	return verifyProductKey (cmdLine);
+[+] 	return verifyProductKey(cmdLine);
+[-] wmain (
+[+] wmain(
+[-] 	wchar_t* argv []
+[+] 	wchar_t* argv[]
+[-] main (
+[+] main(
+[-] 	char* argv []
+[+] 	char* argv[]
+[-] 	setvbuf (stdout, NULL, _IOLBF, 1024);
+[+] 	setvbuf(stdout, NULL, _IOLBF, 1024);
+[-] 	srand ((int) sys::getTimestamp ());
+[+] 	srand((int)sys::getTimestamp());
+[-] 	g::getModule ()->setTag ("ecckey");
+[+] 	g::getModule()->setTag("ecckey");
+[-] 	lex::registerParseErrorProvider ();
+[+] 	lex::registerParseErrorProvider();
+[-] 	cry::registerCryptoErrorProvider ();
+[+] 	cry::registerCryptoErrorProvider();
+[-] 	CmdLineParser parser (&cmdLine);
+[+] 	CmdLineParser parser(&cmdLine);
+[-] 		printUsage ();
+[+] 		printUsage();
+[-] 	result = parser.parse (argc, argv);
+[+] 	result = parser.parse(argc, argv);
+[-] 		printf ("error parsing command line: %s\n", err::getLastErrorDescription ().sz ());
+[+] 		printf("error parsing command line: %s\n", err::getLastErrorDescription ().sz ());
+[-] 	SetConsoleOutputCP (CP_UTF8);
+[+] 	SetConsoleOutputCP(CP_UTF8);
+[-] 		printUsage ();
+[+] 		printUsage();
+[-] 		printVersion ();
+[+] 		printVersion();
+[-] 		listCurves (&cmdLine);
+[+] 		listCurves(&cmdLine);
+[-] 		result = newLicenseFile (&cmdLine);
+[+] 		result = newLicenseFile(&cmdLine);
+[-] 		result = newLicenseKey (&cmdLine);
+[+] 		result = newLicenseKey(&cmdLine);
+[-] 		result = newProductKey (&cmdLine);
+[+] 		result = newProductKey(&cmdLine);
+[-] 		result = verifyProductKey (&cmdLine);
+[+] 		result = verifyProductKey(&cmdLine);
+----------------------
+27/02/2019 18:01:54 - C:\Projects\repos\ioninja\ecckey\src\CmdLine.h
+----------------------
+[-] 	CmdLine ();
+[+] 	CmdLine();
+[-] AXL_SL_BEGIN_CMD_LINE_SWITCH_TABLE (CmdLineSwitchTable, CmdLineSwitchKind)
+[+] AXL_SL_BEGIN_CMD_LINE_SWITCH_TABLE(CmdLineSwitchTable, CmdLineSwitchKind)
+[-] 	AXL_SL_CMD_LINE_SWITCH_2 (
+[+] 	AXL_SL_CMD_LINE_SWITCH_2(
+[-] 	AXL_SL_CMD_LINE_SWITCH_2 (
+[+] 	AXL_SL_CMD_LINE_SWITCH_2(
+[-] 	AXL_SL_CMD_LINE_SWITCH_2 (
+[+] 	AXL_SL_CMD_LINE_SWITCH_2(
+[-] 	AXL_SL_CMD_LINE_SWITCH (
+[+] 	AXL_SL_CMD_LINE_SWITCH(
+[-] 	AXL_SL_CMD_LINE_SWITCH (
+[+] 	AXL_SL_CMD_LINE_SWITCH(
+[-] 	AXL_SL_CMD_LINE_SWITCH_3 (
+[+] 	AXL_SL_CMD_LINE_SWITCH_3(
+[-] 	AXL_SL_CMD_LINE_SWITCH (
+[+] 	AXL_SL_CMD_LINE_SWITCH(
+[-] 	AXL_SL_CMD_LINE_SWITCH_2 (
+[+] 	AXL_SL_CMD_LINE_SWITCH_2(
+[-] 	AXL_SL_CMD_LINE_SWITCH_2 (
+[+] 	AXL_SL_CMD_LINE_SWITCH_2(
+[-] 	AXL_SL_CMD_LINE_SWITCH_2 (
+[+] 	AXL_SL_CMD_LINE_SWITCH_2(
+[-] 	AXL_SL_CMD_LINE_SWITCH (
+[+] 	AXL_SL_CMD_LINE_SWITCH(
+[-] 	AXL_SL_CMD_LINE_SWITCH (
+[+] 	AXL_SL_CMD_LINE_SWITCH(
+[-] 	AXL_SL_CMD_LINE_SWITCH_2 (
+[+] 	AXL_SL_CMD_LINE_SWITCH_2(
+[-] 	AXL_SL_CMD_LINE_SWITCH (
+[+] 	AXL_SL_CMD_LINE_SWITCH(
+[-] 	AXL_SL_CMD_LINE_SWITCH_2 (
+[+] 	AXL_SL_CMD_LINE_SWITCH_2(
+[-] 	AXL_SL_CMD_LINE_SWITCH_2 (
+[+] 	AXL_SL_CMD_LINE_SWITCH_2(
+[-] 	AXL_SL_CMD_LINE_SWITCH_2 (
+[+] 	AXL_SL_CMD_LINE_SWITCH_2(
+[-] 	AXL_SL_CMD_LINE_SWITCH_2 (
+[+] 	AXL_SL_CMD_LINE_SWITCH_2(
+[-] AXL_SL_END_CMD_LINE_SWITCH_TABLE ()
+[+] AXL_SL_END_CMD_LINE_SWITCH_TABLE()
+[-] class CmdLineParser: public sl::CmdLineParser <CmdLineParser, CmdLineSwitchTable>
+[+] class CmdLineParser: public sl::CmdLineParser<CmdLineParser, CmdLineSwitchTable>
+[-] 	friend class sl::CmdLineParser <CmdLineParser, CmdLineSwitchTable>;
+[+] 	friend class sl::CmdLineParser<CmdLineParser, CmdLineSwitchTable>;
+[-] 	CmdLineParser (CmdLine* cmdLine)
+[+] 	CmdLineParser(CmdLine* cmdLine)
+[-] 	onValue (const sl::StringRef& value)
+[+] 	onValue(const sl::StringRef& value)
+[-] 		err::setFormatStringError ("invalid argument %s", value.sz ());
+[+] 		err::setFormatStringError("invalid argument %s", value.sz ());
+[-] 	onSwitch (
+[+] 	onSwitch(
+[-] 	finalize ();
+[+] 	finalize();
+----------------------
+27/02/2019 18:01:54 - C:\Projects\repos\ioninja\ecckey\src\KeyIniParser.h
+----------------------
+[-] class KeyIniParser: public ini::Parser <KeyIniParser>
+[+] class KeyIniParser: public ini::Parser<KeyIniParser>
+[-] 	AXL_SL_BEGIN_STRING_HASH_TABLE (KeyMap, Key)
+[+] 	AXL_SL_BEGIN_STRING_HASH_TABLE(KeyMap, Key)
+[-] 		AXL_SL_HASH_TABLE_ENTRY ("curve",           Key_Curve)
+[+] 		AXL_SL_HASH_TABLE_ENTRY("curve",           Key_Curve)
+[-] 		AXL_SL_HASH_TABLE_ENTRY ("public-key",      Key_PublicKey)
+[+] 		AXL_SL_HASH_TABLE_ENTRY("public-key",      Key_PublicKey)
+[-] 		AXL_SL_HASH_TABLE_ENTRY ("private-key",     Key_PrivateKey)
+[+] 		AXL_SL_HASH_TABLE_ENTRY("private-key",     Key_PrivateKey)
+[-] 		AXL_SL_HASH_TABLE_ENTRY ("random-length",   Key_RandomLength)
+[+] 		AXL_SL_HASH_TABLE_ENTRY("random-length",   Key_RandomLength)
+[-] 		AXL_SL_HASH_TABLE_ENTRY ("hyphen-distance", Key_HyphenDistance)
+[+] 		AXL_SL_HASH_TABLE_ENTRY("hyphen-distance", Key_HyphenDistance)
+[-] 	AXL_SL_END_HASH_TABLE ()
+[+] 	AXL_SL_END_HASH_TABLE()
+[-] 	KeyIniParser (CmdLine* cmdLine);
+[+] 	KeyIniParser(CmdLine* cmdLine);
+[-] 	onSection (const sl::StringRef& sectionName);
+[+] 	onSection(const sl::StringRef& sectionName);
+[-] 	onKeyValue (
+[+] 	onKeyValue(
+----------------------
+27/02/2019 18:01:54 - C:\Projects\repos\ioninja\ecckey\src\pch.h
+----------------------
+[-] #	pragma comment (lib, "ws2_32.lib")
+[+] #	pragma comment(lib, "ws2_32.lib")
+[-] #	pragma comment (lib, "crypt32.lib")
+[+] #	pragma comment(lib, "crypt32.lib")

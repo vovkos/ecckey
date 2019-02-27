@@ -21,6 +21,6 @@
 using namespace axl;
 
 #if (_AXL_OS_WIN)
-#	pragma comment (lib, "ws2_32.lib")
-#	pragma comment (lib, "crypt32.lib")
+#	pragma comment(lib, "ws2_32.lib")
+#	pragma comment(lib, "crypt32.lib")
 #endif

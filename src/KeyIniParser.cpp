@@ -15,16 +15,16 @@
 
 //..............................................................................
 
-KeyIniParser::KeyIniParser (CmdLine* cmdLine)
+KeyIniParser::KeyIniParser(CmdLine* cmdLine)
 {
 	m_cmdLine = cmdLine;
 	m_isLicenseMatch = false;
 }
 
 bool
-KeyIniParser::onSection (const sl::StringRef& sectionName)
+KeyIniParser::onSection(const sl::StringRef& sectionName)
 {
-	if (m_cmdLine->m_license.isEmpty ())
+	if (m_cmdLine->m_license.isEmpty())
 	{
 		m_cmdLine->m_license = sectionName;
 		m_isLicenseMatch = true;
@@ -36,7 +36,7 @@ KeyIniParser::onSection (const sl::StringRef& sectionName)
 }
 
 bool
-KeyIniParser::onKeyValue (
+KeyIniParser::onKeyValue(
 	const sl::StringRef& keyName,
 	const sl::StringRef& value
 	)
@@ -44,9 +44,9 @@ KeyIniParser::onKeyValue (
 	if (!m_isLicenseMatch) // ignore
 		return true;
 
-	KeyMap::Iterator it = KeyMap::find (keyName);
+	KeyMap::Iterator it = KeyMap::find(keyName);
 	if (it)
-		switch (it->m_value)
+		switch(it->m_value)
 		{
 		case Key_PublicKey:
 			m_cmdLine->m_licensePublicKey = value;
@@ -57,10 +57,10 @@ KeyIniParser::onKeyValue (
 			break;
 
 		case Key_Curve:
-			m_cmdLine->m_curveId = OBJ_sn2nid (value.sz ());
+			m_cmdLine->m_curveId = OBJ_sn2nid(value.sz());
 			if (m_cmdLine->m_curveId == NID_undef)
 			{
-				err::setFormatStringError ("invalid curve '%s'", value.sz ());
+				err::setFormatStringError("invalid curve '%s'", value.sz());
 				return false;
 			}
 
@@ -68,11 +68,11 @@ KeyIniParser::onKeyValue (
 
 		case Key_RandomLength:
 			m_cmdLine->m_curveId = NID_undef;
-			m_cmdLine->m_randomLength = atoi (value.sz ());
+			m_cmdLine->m_randomLength = atoi(value.sz());
 			break;
 
 		case Key_HyphenDistance:
-			m_cmdLine->m_hyphenDistance = atoi (value.sz ());
+			m_cmdLine->m_hyphenDistance = atoi(value.sz());
 			break;
 		}
 

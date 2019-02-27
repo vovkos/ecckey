@@ -14,7 +14,7 @@
 
 //..............................................................................
 
-CmdLine::CmdLine ()
+CmdLine::CmdLine()
 {
 	m_flags = 0;
 	m_hyphenDistance = 6;
@@ -28,12 +28,12 @@ CmdLine::CmdLine ()
 //..............................................................................
 
 bool
-CmdLineParser::onSwitch (
+CmdLineParser::onSwitch(
 	SwitchKind switchKind,
 	const sl::StringRef& value
 	)
 {
-	switch (switchKind)
+	switch(switchKind)
 	{
 	case CmdLineSwitchKind_Help:
 		m_cmdLine->m_flags |= CmdLineFlag_Help;
@@ -84,20 +84,20 @@ CmdLineParser::onSwitch (
 		break;
 
 	case CmdLineSwitchKind_LicenseCurve:
-		m_cmdLine->m_curveId = OBJ_sn2nid (value.sz ());
+		m_cmdLine->m_curveId = OBJ_sn2nid(value.sz());
 		if (m_cmdLine->m_curveId == NID_undef)
 		{
-			err::setFormatStringError ("invalid curve '%s'", value.sz ());
+			err::setFormatStringError("invalid curve '%s'", value.sz());
 			return false;
 		}
 
 		break;
 
 	case CmdLineSwitchKind_HyphenDistance:
-		m_cmdLine->m_hyphenDistance = atoi (value.sz ());
+		m_cmdLine->m_hyphenDistance = atoi(value.sz());
 		if (!m_cmdLine->m_hyphenDistance)
 		{
-			err::setFormatStringError ("invalid hyphen distance '%s'", value.sz ());
+			err::setFormatStringError("invalid hyphen distance '%s'", value.sz());
 			return false;
 		}
 
@@ -112,11 +112,11 @@ CmdLineParser::onSwitch (
 		break;
 
 	case CmdLineSwitchKind_TimeLimit:
-		m_cmdLine->m_timeLimit = atoi (value.sz ());
+		m_cmdLine->m_timeLimit = atoi(value.sz());
 		break;
 
 	case CmdLineSwitchKind_Count:
-		m_cmdLine->m_keyCount = atoi (value.sz ());
+		m_cmdLine->m_keyCount = atoi(value.sz());
 		break;
 	}
 
@@ -124,22 +124,22 @@ CmdLineParser::onSwitch (
 }
 
 bool
-CmdLineParser::finalize ()
+CmdLineParser::finalize()
 {
 	if (!(m_cmdLine->m_flags & (CmdLineFlag_NewProductKey | CmdLineFlag_VerifyProductKey)))
 	{
-		if (!m_cmdLine->m_userName.isEmpty () || !m_cmdLine->m_license.isEmpty ()) // e.g. ecckey -u user
+		if (!m_cmdLine->m_userName.isEmpty() || !m_cmdLine->m_license.isEmpty()) // e.g. ecckey -u user
 			m_cmdLine->m_flags |= CmdLineFlag_NewProductKey;
 	}
-	else if (m_cmdLine->m_userName.isEmpty ())
+	else if (m_cmdLine->m_userName.isEmpty())
 	{
-		err::setFormatStringError ("missing user name (-u switch)");
+		err::setFormatStringError("missing user name (-u switch)");
 		return false;
 	}
 
-	if ((m_cmdLine->m_flags & CmdLineFlag_VerifyProductKey) && m_cmdLine->m_productKey.isEmpty ())
+	if ((m_cmdLine->m_flags & CmdLineFlag_VerifyProductKey) && m_cmdLine->m_productKey.isEmpty())
 	{
-		err::setFormatStringError ("missing product key (-p switch)");
+		err::setFormatStringError("missing product key (-p switch)");
 		return false;
 	}
 

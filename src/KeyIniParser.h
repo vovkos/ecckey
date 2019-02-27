@@ -15,7 +15,7 @@ struct CmdLine;
 
 //..............................................................................
 
-class KeyIniParser: public ini::Parser <KeyIniParser>
+class KeyIniParser: public ini::Parser<KeyIniParser>
 {
 protected:
 	enum Key
@@ -27,26 +27,26 @@ protected:
 		Key_HyphenDistance,
 	};
 
-	AXL_SL_BEGIN_STRING_HASH_TABLE (KeyMap, Key)
-		AXL_SL_HASH_TABLE_ENTRY ("curve",           Key_Curve)
-		AXL_SL_HASH_TABLE_ENTRY ("public-key",      Key_PublicKey)
-		AXL_SL_HASH_TABLE_ENTRY ("private-key",     Key_PrivateKey)
-		AXL_SL_HASH_TABLE_ENTRY ("random-length",   Key_RandomLength)
-		AXL_SL_HASH_TABLE_ENTRY ("hyphen-distance", Key_HyphenDistance)
-	AXL_SL_END_HASH_TABLE ()
+	AXL_SL_BEGIN_STRING_HASH_TABLE(KeyMap, Key)
+		AXL_SL_HASH_TABLE_ENTRY("curve",           Key_Curve)
+		AXL_SL_HASH_TABLE_ENTRY("public-key",      Key_PublicKey)
+		AXL_SL_HASH_TABLE_ENTRY("private-key",     Key_PrivateKey)
+		AXL_SL_HASH_TABLE_ENTRY("random-length",   Key_RandomLength)
+		AXL_SL_HASH_TABLE_ENTRY("hyphen-distance", Key_HyphenDistance)
+	AXL_SL_END_HASH_TABLE()
 
 protected:
 	bool m_isLicenseMatch;
 	CmdLine* m_cmdLine;
 
 public:
-	KeyIniParser (CmdLine* cmdLine);
+	KeyIniParser(CmdLine* cmdLine);
 
 	bool
-	onSection (const sl::StringRef& sectionName);
+	onSection(const sl::StringRef& sectionName);
 
 	bool
-	onKeyValue (
+	onKeyValue(
 		const sl::StringRef& keyName,
 		const sl::StringRef& value
 		);

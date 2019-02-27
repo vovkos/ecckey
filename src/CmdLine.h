@@ -43,7 +43,7 @@ struct CmdLine
 	sl::String m_userName;
 	sl::String m_productKey;
 
-	CmdLine ();
+	CmdLine();
 };
 
 //..............................................................................
@@ -73,130 +73,130 @@ enum CmdLineSwitchKind
 
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
-AXL_SL_BEGIN_CMD_LINE_SWITCH_TABLE (CmdLineSwitchTable, CmdLineSwitchKind)
-	AXL_SL_CMD_LINE_SWITCH_2 (
+AXL_SL_BEGIN_CMD_LINE_SWITCH_TABLE(CmdLineSwitchTable, CmdLineSwitchKind)
+	AXL_SL_CMD_LINE_SWITCH_2(
 		CmdLineSwitchKind_Help,
 		"h", "help", NULL,
 		"Display this help"
 		)
-	AXL_SL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2(
 		CmdLineSwitchKind_Version,
 		"v", "version", NULL,
 		"Display version of ecckey"
 		)
-	AXL_SL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2(
 		CmdLineSwitchKind_NewLicenseFile,
 		"g", "new-license-file", NULL,
 		"Generate a new license file (-f to specify name)"
 		)
-	AXL_SL_CMD_LINE_SWITCH (
+	AXL_SL_CMD_LINE_SWITCH(
 		CmdLineSwitchKind_NewLicenseKey,
 		"new-license-key", NULL,
 		"Generate a new license key"
 		)
-	AXL_SL_CMD_LINE_SWITCH (
+	AXL_SL_CMD_LINE_SWITCH(
 		CmdLineSwitchKind_NewProductKey,
 		"new-product-key", NULL,
 		"Generate a new product key"
 		)
-	AXL_SL_CMD_LINE_SWITCH_3 (
+	AXL_SL_CMD_LINE_SWITCH_3(
 		CmdLineSwitchKind_VerifyProductKey,
 		"y", "verify", "check", NULL,
 		"Verify a product key"
 		)
-	AXL_SL_CMD_LINE_SWITCH (
+	AXL_SL_CMD_LINE_SWITCH(
 		CmdLineSwitchKind_ListCurves,
 		"list-curves", NULL,
 		"Display the list of available ECC curves"
 		)
-	AXL_SL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2(
 		CmdLineSwitchKind_Minimalistic,
 		"min", "minimalistic", NULL,
 		"Omit verbose data where possible"
 		)
-	AXL_SL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2(
 		CmdLineSwitchKind_LicenseFileName,
 		"f", "license-file", "<file>",
 		"Specify license file (default: ecckey.conf)"
 		)
-	AXL_SL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2(
 		CmdLineSwitchKind_License,
 		"l", "license", "<license>",
 		"Specify license (default: the 1st license in file)"
 		)
-	AXL_SL_CMD_LINE_SWITCH (
+	AXL_SL_CMD_LINE_SWITCH(
 		CmdLineSwitchKind_LicensePublicKey,
 		"public-key", "<key>",
 		"Specify license public key (for verification)"
 		)
-	AXL_SL_CMD_LINE_SWITCH (
+	AXL_SL_CMD_LINE_SWITCH(
 		CmdLineSwitchKind_LicensePrivateKey,
 		"private-key", "<key>",
 		"Specify license private key"
 		)
-	AXL_SL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2(
 		CmdLineSwitchKind_LicenseCurve,
 		"c", "curve", "<curve>",
 		"Specify ECC curve (default: secp112r1)"
 		)
-	AXL_SL_CMD_LINE_SWITCH (
+	AXL_SL_CMD_LINE_SWITCH(
 		CmdLineSwitchKind_HyphenDistance,
 		"hyphen-distance", "<n>",
 		"Specify hyphen distance (default: 6)"
 		)
-	AXL_SL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2(
 		CmdLineSwitchKind_UserName,
 		"u", "user", "<user>",
 		"Specify user name"
 		)
-	AXL_SL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2(
 		CmdLineSwitchKind_ProductKey,
 		"p", "product-key", "<key>",
 		"Specify product key (for verification)"
 		)
-	AXL_SL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2(
 		CmdLineSwitchKind_TimeLimit,
 		"t", "time-limit", "<days>",
 		"Specify time limit (in days)"
 		)
-	AXL_SL_CMD_LINE_SWITCH_2 (
+	AXL_SL_CMD_LINE_SWITCH_2(
 		CmdLineSwitchKind_Count,
 		"n", "count", "<count>",
 		"Specify product key count"
 		)
-AXL_SL_END_CMD_LINE_SWITCH_TABLE ()
+AXL_SL_END_CMD_LINE_SWITCH_TABLE()
 
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
-class CmdLineParser: public sl::CmdLineParser <CmdLineParser, CmdLineSwitchTable>
+class CmdLineParser: public sl::CmdLineParser<CmdLineParser, CmdLineSwitchTable>
 {
-	friend class sl::CmdLineParser <CmdLineParser, CmdLineSwitchTable>;
+	friend class sl::CmdLineParser<CmdLineParser, CmdLineSwitchTable>;
 
 protected:
 	CmdLine* m_cmdLine;
 
 public:
-	CmdLineParser (CmdLine* cmdLine)
+	CmdLineParser(CmdLine* cmdLine)
 	{
 		m_cmdLine = cmdLine;
 	}
 
 protected:
 	bool
-	onValue (const sl::StringRef& value)
+	onValue(const sl::StringRef& value)
 	{
-		err::setFormatStringError ("invalid argument %s", value.sz ());
+		err::setFormatStringError("invalid argument %s", value.sz());
 		return true;
 	}
 
 	bool
-	onSwitch (
+	onSwitch(
 		SwitchKind switchKind,
 		const sl::StringRef& value
 		);
 
 	bool
-	finalize ();
+	finalize();
 };
 
 //..............................................................................
