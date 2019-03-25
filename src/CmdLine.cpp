@@ -33,7 +33,7 @@ CmdLineParser::onSwitch(
 	const sl::StringRef& value
 	)
 {
-	switch(switchKind)
+	switch (switchKind)
 	{
 	case CmdLineSwitchKind_Help:
 		m_cmdLine->m_flags |= CmdLineFlag_Help;

@@ -46,7 +46,7 @@ KeyIniParser::onKeyValue(
 
 	KeyMap::Iterator it = KeyMap::find(keyName);
 	if (it)
-		switch(it->m_value)
+		switch (it->m_value)
 		{
 		case Key_PublicKey:
 			m_cmdLine->m_licensePublicKey = value;
