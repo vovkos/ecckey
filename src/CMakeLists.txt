@@ -13,21 +13,21 @@
 # app folder
 #
 
-set (
+set(
 	APP_H_LIST
 	CmdLine.h
 	KeyIniParser.h
 	version.h.in
 	)
 
-set (
+set(
 	APP_CPP_LIST
 	main.cpp
 	CmdLine.cpp
 	KeyIniParser.cpp
 	)
 
-source_group (
+source_group(
 	app
 	FILES
 	${APP_H_LIST}
@@ -39,12 +39,12 @@ source_group (
 # res folder
 #
 
-set (
+set(
 	RES_RC_LIST
 	res.rc
 	)
 
-source_group (
+source_group(
 	res
 	FILES
 	${RES_RC_LIST}
@@ -55,24 +55,24 @@ source_group (
 # gen folder
 #
 
-set (GEN_DIR ${CMAKE_CURRENT_BINARY_DIR}/gen)
-file (MAKE_DIRECTORY ${GEN_DIR})
+set(GEN_DIR ${CMAKE_CURRENT_BINARY_DIR}/gen)
+file(MAKE_DIRECTORY ${GEN_DIR})
 
-axl_push_and_set (CMAKE_CURRENT_BINARY_DIR ${GEN_DIR})
+axl_push_and_set(CMAKE_CURRENT_BINARY_DIR ${GEN_DIR})
 
-configure_file (
+configure_file(
 	version.h.in
 	${GEN_DIR}/version.h
 	)
 
-set (
+set(
 	GEN_H_LIST
 	${GEN_DIR}/version.h
 	)
 
-axl_pop (CMAKE_CURRENT_BINARY_DIR)
+axl_pop(CMAKE_CURRENT_BINARY_DIR)
 
-source_group (
+source_group(
 	gen
 	FILES
 	${GEN_H_LIST}
@@ -83,10 +83,10 @@ source_group (
 # pch folder
 #
 
-set (PCH_H   pch.h)
-set (PCH_CPP pch.cpp)
+set(PCH_H   pch.h)
+set(PCH_CPP pch.cpp)
 
-source_group (
+source_group(
 	pch
 	FILES
 	${PCH_H}
@@ -98,18 +98,18 @@ source_group (
 # ecckey elliptic curve product key tool
 #
 
-include_directories (
+include_directories(
 	${OPENSSL_INC_DIR}
 	${AXL_INC_DIR}
 	${GEN_DIR}
 	)
 
-link_directories (
+link_directories(
 	${OPENSSL_LIB_DIR}
 	${AXL_LIB_DIR}
 	)
 
-add_executable (
+add_executable(
 	ecckey
 	${PCH_H}
 	${PCH_CPP}
@@ -119,19 +119,19 @@ add_executable (
 	${GEN_H_LIST}
 	)
 
-axl_set_pch (
+axl_set_pch(
 	ecckey
 	${PCH_H}
 	${PCH_CPP}
 	)
 
-set_target_properties (
+set_target_properties(
 	ecckey
 	PROPERTIES
 	FOLDER tools
 	)
 
-target_link_libraries (
+target_link_libraries(
 	ecckey
 	axl_cry
 	axl_ini
@@ -141,25 +141,25 @@ target_link_libraries (
 	${OPENSSL_CRYPTO_LIB_NAME}
 	)
 
-if (UNIX)
-	target_link_libraries (
+if(UNIX)
+	target_link_libraries(
 		ecckey
 		dl
 		pthread
 		)
 
-	if (NOT APPLE)
-		target_link_libraries (
+	if(NOT APPLE)
+		target_link_libraries(
 			ecckey
 			rt
 			)
-	endif ()
-endif ()
+	endif()
+endif()
 
-if (WIN32 AND OPENSSL_DLL_DIR AND OPENSSL_CRYPTO_DLL_NAME)
-	set (_DEBUG_SUFFIX $<$<CONFIG:Debug>:d>)
+if(WIN32 AND OPENSSL_DLL_DIR AND OPENSSL_CRYPTO_DLL_NAME)
+	set(_DEBUG_SUFFIX $<$<CONFIG:Debug>:d>)
 
-	add_custom_command (
+	add_custom_command(
 		TARGET ecckey
 		POST_BUILD
 		COMMAND
@@ -169,11 +169,11 @@ if (WIN32 AND OPENSSL_DLL_DIR AND OPENSSL_CRYPTO_DLL_NAME)
 			${OPENSSL_DLL_DIR}/${OPENSSL_CRYPTO_DLL_NAME}.dll
 			${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CONFIGURATION}
 		)
-endif ()
+endif()
 
 #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
-install (
+install(
 	TARGETS ecckey
 	DESTINATION ${ECCKEY_INSTALL_BIN_SUBDIR}
 	)
