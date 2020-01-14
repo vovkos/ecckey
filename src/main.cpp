@@ -375,7 +375,7 @@ main(
 
 	g::getModule()->setTag("ecckey");
 	lex::registerParseErrorProvider();
-	cry::registerCryptoErrorProvider();
+	cry::registerCryptoErrorProviders();
 
 	CmdLine cmdLine;
 	CmdLineParser parser(&cmdLine);
