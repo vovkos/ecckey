@@ -23,6 +23,7 @@ enum CmdLineFlag
 	CmdLineFlag_VerifyProductKey = 0x0020,
 	CmdLineFlag_ListCurves       = 0x0040,
 	CmdLineFlag_Minimalistic     = 0x0080,
+	CmdLineFlag_GetMacTag        = 0x0100,
 };
 
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -42,6 +43,7 @@ struct CmdLine
 	sl::String m_licensePrivateKey;
 	sl::String m_userName;
 	sl::String m_productKey;
+	sl::Array<char> m_macTag;
 
 	CmdLine();
 };
@@ -68,6 +70,8 @@ enum CmdLineSwitchKind
 	CmdLineSwitchKind_UserName,
 	CmdLineSwitchKind_ProductKey,
 	CmdLineSwitchKind_TimeLimit,
+	CmdLineSwitchKind_AddMacTag,
+	CmdLineSwitchKind_GetMacTag,
 	CmdLineSwitchKind_Count,
 };
 
@@ -158,6 +162,16 @@ AXL_SL_BEGIN_CMD_LINE_SWITCH_TABLE(CmdLineSwitchTable, CmdLineSwitchKind)
 		CmdLineSwitchKind_TimeLimit,
 		"t", "time-limit", "<days>",
 		"Specify time limit (in days)"
+		)
+	AXL_SL_CMD_LINE_SWITCH_3(
+		CmdLineSwitchKind_AddMacTag,
+		"m", "mac-tag", "add-mac-tag", "<mac-tag>",
+		"Add MAC-tag to make product key machine-specific"
+		)
+	AXL_SL_CMD_LINE_SWITCH(
+		CmdLineSwitchKind_GetMacTag,
+		"get-mac-tag", NULL,
+		"Display MAC-tag of the current machine"
 		)
 	AXL_SL_CMD_LINE_SWITCH_2(
 		CmdLineSwitchKind_Count,

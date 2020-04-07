@@ -64,6 +64,70 @@ listCurves(CmdLine* cmdLine)
 				);
 }
 
+void
+getMacTag(CmdLine* cmdLine)
+{
+	sl::Array<uchar_t> md5Buffer;
+
+	sl::List<io::NetworkAdapterDesc> adapterList;
+	io::createNetworkAdapterDescList(&adapterList);
+
+	sl::Iterator<io::NetworkAdapterDesc> it = adapterList.getHead();
+	for (; it; it++)
+	{
+		if (it->isNullMacAddress())
+			continue;
+
+		md5Buffer.appendEmptySpace(MD5_DIGEST_LENGTH);
+		uchar_t* p = md5Buffer.getEnd() - MD5_DIGEST_LENGTH;
+		MD5(it->getMacAddress(), 6, p);
+	}
+
+	sl::String tag = enc::Base32Encoding::encode(md5Buffer, md5Buffer.getCount(), -1);
+	printf("MAC-tag: %s\n", tag.sz());
+}
+
+bool
+verifyMacTag(
+	const char* macTag,
+	size_t size
+	)
+{
+	sl::List<io::NetworkAdapterDesc> adapterList;
+	io::createNetworkAdapterDescList(&adapterList);
+
+	struct Md5Struct
+	{
+		char m_md5[MD5_DIGEST_LENGTH];
+	};
+
+	sl::HashTable<Md5Struct, bool, sl::HashDjb2<Md5Struct>, sl::EqBin<Md5Struct> > macDigestSet;
+	sl::Iterator<io::NetworkAdapterDesc> it = adapterList.getHead();
+	for (; it; it++)
+	{
+		if (it->isNullMacAddress())
+			continue;
+
+		uchar_t md5[MD5_DIGEST_LENGTH];
+		MD5(it->getMacAddress(), 6, md5);
+		macDigestSet.add(*(Md5Struct*)md5, true);
+	}
+
+	size &= ~(MD5_DIGEST_LENGTH - 1); // just in case
+	const char* p = macTag;
+	const char* end = p + size;
+	while (p < end)
+	{
+		bool isFound = macDigestSet.find(*(Md5Struct*)p);
+		if (isFound)
+			return true;
+
+		p += MD5_DIGEST_LENGTH;
+	}
+
+	return false; // not found
+}
+
 int
 newLicenseFile(CmdLine* cmdLine)
 {
@@ -160,7 +224,10 @@ newLicenseKey(CmdLine* cmdLine)
 }
 
 int
-verifyProductKey(CmdLine* cmdLine)
+verifyProductKey(
+	CmdLine* cmdLine,
+	bool skipMacTag = false
+	)
 {
 	bool result;
 
@@ -191,47 +258,65 @@ verifyProductKey(CmdLine* cmdLine)
 		return -1;
 	}
 
-	size_t dueTimeIndex = cmdLine->m_productKey.find(':');
+	sl::String userName = cmdLine->m_userName;
 
-	if (dueTimeIndex == -1)
+	size_t macTagIndex = cmdLine->m_productKey.find('@');
+	size_t dueTimeIndex = cmdLine->m_productKey.find(':');
+	size_t productKeyLength = AXL_MIN(macTagIndex, dueTimeIndex);
+	sl::Array<char> macTag;
+	uint64_t dueTime = -1;
+
+	sl::StringRef productKey = cmdLine->m_productKey.getSubString(0, productKeyLength);
+
+	if (macTagIndex != -1)
 	{
-		result = cry::verifyEcProductKey(key, cmdLine->m_userName, cmdLine->m_productKey);
-		if (!result)
+		size_t length = dueTimeIndex == -1 ? -1 : dueTimeIndex - macTagIndex - 1;
+		sl::StringRef macTagString = cmdLine->m_productKey.getSubString(macTagIndex + 1, length);
+		enc::Base32Encoding::decode(&macTag, macTagString);
+		if (macTag.getCount() & (MD5_DIGEST_LENGTH - 1))
 		{
-			printf("invalid user-name/product-key combination\n");
+			printf("invalid product key\n");
 			return -1;
 		}
-	}
-	else
-	{
-		sl::StringRef productKey = cmdLine->m_productKey.getSubString(0, dueTimeIndex);
-		sl::StringRef dueTimeString = cmdLine->m_productKey.getSubString(dueTimeIndex + 1);
 
+		userName.append(macTag, macTag.getCount());
+	}
+
+	if (dueTimeIndex != -1)
+	{
+		sl::StringRef dueTimeString = cmdLine->m_productKey.getSubString(dueTimeIndex + 1);
 		sl::Array<char> dueTimeBuffer = enc::Base32Encoding::decode(dueTimeString);
 		if (dueTimeBuffer.getCount() < sizeof(uint32_t))
 		{
-			printf("invalid product-key\n");
+			printf("invalid product key\n");
 			return -1;
 		}
 
-		sl::String userName = cmdLine->m_userName;
 		userName.append(dueTimeBuffer, sizeof(uint32_t));
 
-		result = cry::verifyEcProductKey(key, userName, productKey);
-		if (!result)
-		{
-			printf("invalid user-name/product-key combination\n");
-			return -1;
-		}
-
-		uint64_t dueTime = (*(uint32_t*)dueTimeBuffer.cp());
+		dueTime = *(uint32_t*)dueTimeBuffer.cp();
 		dueTime <<= 32;
+	}
 
-		if (dueTime < sys::getTimestamp())
-		{
-			printf("product key is valid, but expired\n");
-			return -2;
-		}
+	result = cry::verifyEcProductKey(key, userName, productKey);
+	if (!result)
+	{
+		printf("invalid user-name/product-key combination\n");
+		return -1;
+	}
+
+	if (!skipMacTag &&
+		!macTag.isEmpty() &&
+		!verifyMacTag(macTag, macTag.getCount()))
+	{
+		printf("product key cannot be used on this computer\n");
+		return -3;
+	}
+
+	if (dueTime < sys::getTimestamp())
+	{
+		printf("product key is expired\n");
+		return -2;
 	}
 
 	printf("product key is valid\n");
@@ -303,22 +388,30 @@ newProductKey(CmdLine* cmdLine)
 	sl::String productKey;
 
 	uint64_t dueTime;
+	sl::String userName = cmdLine->m_userName;
 
-	if (!cmdLine->m_timeLimit)
-	{
-		productKey = cry::generateEcProductKey(key, cmdLine->m_userName, cmdLine->m_hyphenDistance);
-	}
-	else
+	if (!cmdLine->m_macTag.isEmpty())
+		userName.append(cmdLine->m_macTag, cmdLine->m_macTag.getCount());
+
+	if (cmdLine->m_timeLimit)
 	{
 		dueTime = sys::getTimestamp();
 		dueTime += (uint64_t)cmdLine->m_timeLimit * 24 * 60 * 60 * 1000 * 10000;
 		dueTime >>= 32;
 
-		sl::String userName = cmdLine->m_userName;
-		userName.append((char*) &dueTime, 4);
+		userName.append((char*)&dueTime, 4);
+	}
 
-		productKey = cry::generateEcProductKey(key, userName, cmdLine->m_hyphenDistance);
+	productKey = cry::generateEcProductKey(key, userName, cmdLine->m_hyphenDistance);
 
+	if (!cmdLine->m_macTag.isEmpty())
+	{
+		productKey += '@';
+		productKey += enc::Base32Encoding::encode(cmdLine->m_macTag, cmdLine->m_macTag.getCount(), -1);
+	}
+
+	if (cmdLine->m_timeLimit)
+	{
 		productKey += ':';
 		productKey += enc::Base32Encoding::encode(&dueTime, 4, -1);
 	}
@@ -346,7 +439,7 @@ newProductKey(CmdLine* cmdLine)
 	cmdLine->m_productKey = productKey;
 
 	printf("\nverifying...\n");
-	return verifyProductKey(cmdLine);
+	return verifyProductKey(cmdLine, true);
 }
 
 //..............................................................................
@@ -407,6 +500,8 @@ main(
 		printVersion();
 	else if (cmdLine.m_flags & CmdLineFlag_ListCurves)
 		listCurves(&cmdLine);
+	else if (cmdLine.m_flags & CmdLineFlag_GetMacTag)
+		getMacTag(&cmdLine);
 	else if (cmdLine.m_flags & CmdLineFlag_NewLicenseFile)
 		result = newLicenseFile(&cmdLine);
 	else if (cmdLine.m_flags & CmdLineFlag_NewLicenseKey)

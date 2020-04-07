@@ -141,7 +141,12 @@ target_link_libraries(
 	${OPENSSL_CRYPTO_LIB_NAME}
 	)
 
-if(UNIX)
+if(WIN32)
+	target_link_libraries(
+		ecckey
+		iphlpapi
+		)
+elseif(UNIX)
 	target_link_libraries(
 		ecckey
 		dl
