@@ -65,7 +65,7 @@ listCurves(CmdLine* cmdLine)
 }
 
 void
-getMacTag(CmdLine* cmdLine)
+calcMacFp(CmdLine* cmdLine)
 {
 	sl::Array<uchar_t> md5Buffer;
 
@@ -73,23 +73,26 @@ getMacTag(CmdLine* cmdLine)
 	io::createNetworkAdapterDescList(&adapterList);
 
 	sl::Iterator<io::NetworkAdapterDesc> it = adapterList.getHead();
-	for (; it; it++)
+	for (size_t i = 0; it; it++)
 	{
 		if (it->isNullMacAddress())
 			continue;
 
+		const uchar_t* mac = it->getMacAddress();
+		printf("MAC[%d]: %02X:%02X:%02X:xx:xx:xx\n", i++, mac[0], mac[1], mac[2]);
+
 		md5Buffer.appendEmptySpace(MD5_DIGEST_LENGTH);
 		uchar_t* p = md5Buffer.getEnd() - MD5_DIGEST_LENGTH;
-		MD5(it->getMacAddress(), 6, p);
+		MD5(mac, 6, p);
 	}
 
 	sl::String tag = enc::Base32Encoding::encode(md5Buffer, md5Buffer.getCount(), -1);
-	printf("MAC-tag: %s\n", tag.sz());
+	printf("MAC-fingerprint: %s\n", tag.sz());
 }
 
 bool
-verifyMacTag(
-	const char* macTag,
+verifyMacFp(
+	const char* macFp,
 	size_t size
 	)
 {
@@ -114,7 +117,7 @@ verifyMacTag(
 	}
 
 	size &= ~(MD5_DIGEST_LENGTH - 1); // just in case
-	const char* p = macTag;
+	const char* p = macFp;
 	const char* end = p + size;
 	while (p < end)
 	{
@@ -260,26 +263,26 @@ verifyProductKey(
 
 	sl::String userName = cmdLine->m_userName;
 
-	size_t macTagIndex = cmdLine->m_productKey.find('@');
+	size_t macFpIndex = cmdLine->m_productKey.find('@');
 	size_t dueTimeIndex = cmdLine->m_productKey.find(':');
-	size_t productKeyLength = AXL_MIN(macTagIndex, dueTimeIndex);
-	sl::Array<char> macTag;
+	size_t productKeyLength = AXL_MIN(macFpIndex, dueTimeIndex);
+	sl::Array<char> macFp;
 	uint64_t dueTime = -1;
 
 	sl::StringRef productKey = cmdLine->m_productKey.getSubString(0, productKeyLength);
 
-	if (macTagIndex != -1)
+	if (macFpIndex != -1)
 	{
-		size_t length = dueTimeIndex == -1 ? -1 : dueTimeIndex - macTagIndex - 1;
-		sl::StringRef macTagString = cmdLine->m_productKey.getSubString(macTagIndex + 1, length);
-		enc::Base32Encoding::decode(&macTag, macTagString);
-		if (macTag.getCount() & (MD5_DIGEST_LENGTH - 1))
+		size_t length = dueTimeIndex == -1 ? -1 : dueTimeIndex - macFpIndex - 1;
+		sl::StringRef macTagString = cmdLine->m_productKey.getSubString(macFpIndex + 1, length);
+		enc::Base32Encoding::decode(&macFp, macTagString);
+		if (macFp.getCount() & (MD5_DIGEST_LENGTH - 1))
 		{
 			printf("invalid product key\n");
 			return -1;
 		}
 
-		userName.append(macTag, macTag.getCount());
+		userName.append(macFp, macFp.getCount());
 	}
 
 	if (dueTimeIndex != -1)
@@ -306,8 +309,8 @@ verifyProductKey(
 	}
 
 	if (!skipMacTag &&
-		!macTag.isEmpty() &&
-		!verifyMacTag(macTag, macTag.getCount()))
+		!macFp.isEmpty() &&
+		!verifyMacFp(macFp, macFp.getCount()))
 	{
 		printf("product key cannot be used on this computer\n");
 		return -3;
@@ -390,8 +393,8 @@ newProductKey(CmdLine* cmdLine)
 	uint64_t dueTime;
 	sl::String userName = cmdLine->m_userName;
 
-	if (!cmdLine->m_macTag.isEmpty())
-		userName.append(cmdLine->m_macTag, cmdLine->m_macTag.getCount());
+	if (!cmdLine->m_macFp.isEmpty())
+		userName.append(cmdLine->m_macFp, cmdLine->m_macFp.getCount());
 
 	if (cmdLine->m_timeLimit)
 	{
@@ -404,10 +407,10 @@ newProductKey(CmdLine* cmdLine)
 
 	productKey = cry::generateEcProductKey(key, userName, cmdLine->m_hyphenDistance);
 
-	if (!cmdLine->m_macTag.isEmpty())
+	if (!cmdLine->m_macFp.isEmpty())
 	{
 		productKey += '@';
-		productKey += enc::Base32Encoding::encode(cmdLine->m_macTag, cmdLine->m_macTag.getCount(), -1);
+		productKey += enc::Base32Encoding::encode(cmdLine->m_macFp, cmdLine->m_macFp.getCount(), -1);
 	}
 
 	if (cmdLine->m_timeLimit)
@@ -500,8 +503,8 @@ main(
 		printVersion();
 	else if (cmdLine.m_flags & CmdLineFlag_ListCurves)
 		listCurves(&cmdLine);
-	else if (cmdLine.m_flags & CmdLineFlag_GetMacTag)
-		getMacTag(&cmdLine);
+	else if (cmdLine.m_flags & CmdLineFlag_CalcMacFp)
+		calcMacFp(&cmdLine);
 	else if (cmdLine.m_flags & CmdLineFlag_NewLicenseFile)
 		result = newLicenseFile(&cmdLine);
 	else if (cmdLine.m_flags & CmdLineFlag_NewLicenseKey)

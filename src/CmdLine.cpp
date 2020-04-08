@@ -115,12 +115,12 @@ CmdLineParser::onSwitch(
 		m_cmdLine->m_timeLimit = atoi(value.sz());
 		break;
 
-	case CmdLineSwitchKind_AddMacTag:
-		enc::Base32Encoding::decode(&m_cmdLine->m_macTag, value);
+	case CmdLineSwitchKind_AddMacFp:
+		enc::Base32Encoding::decode(&m_cmdLine->m_macFp, value);
 		break;
 
-	case CmdLineSwitchKind_GetMacTag:
-		m_cmdLine->m_flags |= CmdLineFlag_GetMacTag;
+	case CmdLineSwitchKind_CalcMacFp:
+		m_cmdLine->m_flags |= CmdLineFlag_CalcMacFp;
 		break;
 
 	case CmdLineSwitchKind_Count:
