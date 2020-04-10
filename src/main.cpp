@@ -121,7 +121,7 @@ verifyMacFp(
 	const char* end = p + size;
 	while (p < end)
 	{
-		bool isFound = macDigestSet.find(*(Md5Struct*)p);
+		bool isFound = macDigestSet.find(*(Md5Struct*)p) != NULL;
 		if (isFound)
 			return true;
 
