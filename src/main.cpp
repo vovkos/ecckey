@@ -90,6 +90,11 @@ calcMacFp(CmdLine* cmdLine)
 	printf("MAC-fingerprint: %s\n", tag.sz());
 }
 
+struct Md5Struct
+{
+	char m_md5[MD5_DIGEST_LENGTH];
+};
+
 bool
 verifyMacFp(
 	const char* macFp,
@@ -98,11 +103,6 @@ verifyMacFp(
 {
 	sl::List<io::NetworkAdapterDesc> adapterList;
 	io::createNetworkAdapterDescList(&adapterList);
-
-	struct Md5Struct
-	{
-		char m_md5[MD5_DIGEST_LENGTH];
-	};
 
 	sl::HashTable<Md5Struct, bool, sl::HashDjb2<Md5Struct>, sl::EqBin<Md5Struct> > macDigestSet;
 	sl::Iterator<io::NetworkAdapterDesc> it = adapterList.getHead();
