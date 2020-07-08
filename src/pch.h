@@ -19,6 +19,8 @@
 #include "axl_sys_Time.h"
 #include "axl_enc_Base32Encoding.h"
 
+#include <openssl/rand.h>
+
 using namespace axl;
 
 #if (_AXL_OS_WIN)
