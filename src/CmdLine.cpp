@@ -116,7 +116,7 @@ CmdLineParser::onSwitch(
 		break;
 
 	case CmdLineSwitchKind_AddMacFp:
-		enc::Base32Encoding::decode(&m_cmdLine->m_macFp, value);
+		enc::Base32Encoding_nj::decode(&m_cmdLine->m_macFp, value);
 		break;
 
 	case CmdLineSwitchKind_CalcMacFp:

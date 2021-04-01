@@ -40,6 +40,62 @@ printUsage()
 	printf("Usage: ecckey <options>...\n%s", helpString.sz());
 }
 
+//..............................................................................
+
+bool
+generateEcProductKey(
+	EC_KEY* ecKey0,
+	sl::String* productKey,
+	const sl::StringRef& userName,
+	size_t hyphenDistance = 6
+	)
+{
+	char buffer[256];
+	sl::Array<char> signature(ref::BufKind_Stack, buffer, sizeof(buffer));
+
+	cry::EcKey ecKey(ecKey0);
+
+	bool result =
+		ecKey.sign(&signature, userName.cp(), userName.getLength()) &&
+		enc::Base32Encoding_nj::encode(productKey, signature, signature.getCount(), hyphenDistance) != -1;
+
+	ecKey.detach();
+	return result;
+}
+
+inline
+sl::String
+generateEcProductKey(
+	EC_KEY* ecKey,
+	const sl::StringRef& userName,
+	size_t hyphenDistance = 6
+	)
+{
+	sl::String productKey;
+	generateEcProductKey(ecKey, &productKey, userName, hyphenDistance);
+	return productKey;
+}
+
+bool
+verifyEcProductKey(
+	EC_KEY* ecKey0,
+	const sl::StringRef& userName,
+	const sl::StringRef& productKey
+	)
+{
+	char buffer[256];
+	sl::Array<char> signature(ref::BufKind_Stack, buffer, sizeof(buffer));
+
+	cry::EcKey ecKey(ecKey0);
+
+	bool result =
+		enc::Base32Encoding_nj::decode(&signature, productKey) != -1 &&
+		ecKey.verify(userName.cp(), userName.getLength(), signature, signature.getCount());
+
+	ecKey.detach();
+	return result;
+}
+
 void
 listCurves(CmdLine* cmdLine)
 {
@@ -86,7 +142,7 @@ calcMacFp(CmdLine* cmdLine)
 		MD5(mac, 6, p);
 	}
 
-	sl::String tag = enc::Base32Encoding::encode(md5Buffer, md5Buffer.getCount(), -1);
+	sl::String tag = enc::Base32Encoding_nj::encode(md5Buffer, md5Buffer.getCount(), -1);
 	printf("MAC-fingerprint: %s\n", tag.sz());
 }
 
@@ -202,13 +258,13 @@ newLicenseKey(CmdLine* cmdLine)
 
 	sl::StringRef sampleUserName = "Sample User";
 
-	sl::String sampleProductKey = cry::generateEcProductKey(
+	sl::String sampleProductKey = generateEcProductKey(
 		key,
 		sampleUserName,
 		cmdLine->m_hyphenDistance
 		);
 
-	bool isValidKey = cry::verifyEcProductKey(key, sampleUserName, sampleProductKey);
+	bool isValidKey = verifyEcProductKey(key, sampleUserName, sampleProductKey);
 	if (!isValidKey)
 	{
 		printf("error: unable to verify sample product key\n");
@@ -275,7 +331,7 @@ verifyProductKey(
 	{
 		size_t length = dueTimeIndex == -1 ? -1 : dueTimeIndex - macFpIndex - 1;
 		sl::StringRef macTagString = cmdLine->m_productKey.getSubString(macFpIndex + 1, length);
-		enc::Base32Encoding::decode(&macFp, macTagString);
+		enc::Base32Encoding_nj::decode(&macFp, macTagString);
 		if (macFp.getCount() & (MD5_DIGEST_LENGTH - 1))
 		{
 			printf("invalid product key\n");
@@ -288,7 +344,7 @@ verifyProductKey(
 	if (dueTimeIndex != -1)
 	{
 		sl::StringRef dueTimeString = cmdLine->m_productKey.getSubString(dueTimeIndex + 1);
-		sl::Array<char> dueTimeBuffer = enc::Base32Encoding::decode(dueTimeString);
+		sl::Array<char> dueTimeBuffer = enc::Base32Encoding_nj::decode(dueTimeString);
 		if (dueTimeBuffer.getCount() < sizeof(uint32_t))
 		{
 			printf("invalid product key\n");
@@ -301,7 +357,7 @@ verifyProductKey(
 		dueTime <<= 32;
 	}
 
-	result = cry::verifyEcProductKey(key, userName, productKey);
+	result = verifyEcProductKey(key, userName, productKey);
 	if (!result)
 	{
 		printf("invalid user-name/product-key combination\n");
@@ -405,18 +461,18 @@ newProductKey(CmdLine* cmdLine)
 		userName.append((char*)&dueTime, 4);
 	}
 
-	productKey = cry::generateEcProductKey(key, userName, cmdLine->m_hyphenDistance);
+	productKey = generateEcProductKey(key, userName, cmdLine->m_hyphenDistance);
 
 	if (!cmdLine->m_macFp.isEmpty())
 	{
 		productKey += '@';
-		productKey += enc::Base32Encoding::encode(cmdLine->m_macFp, cmdLine->m_macFp.getCount(), -1);
+		productKey += enc::Base32Encoding_nj::encode(cmdLine->m_macFp, cmdLine->m_macFp.getCount(), -1);
 	}
 
 	if (cmdLine->m_timeLimit)
 	{
 		productKey += ':';
-		productKey += enc::Base32Encoding::encode(&dueTime, 4, -1);
+		productKey += enc::Base32Encoding_nj::encode(&dueTime, 4, -1);
 	}
 
 	if (!cmdLine->m_license.isEmpty())
