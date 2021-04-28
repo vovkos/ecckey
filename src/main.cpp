@@ -51,7 +51,7 @@ generateEcProductKey(
 	)
 {
 	char buffer[256];
-	sl::Array<char> signature(ref::BufKind_Stack, buffer, sizeof(buffer));
+	sl::Array<char> signature(rc::BufKind_Stack, buffer, sizeof(buffer));
 
 	cry::EcKey ecKey(ecKey0);
 
@@ -84,7 +84,7 @@ verifyEcProductKey(
 	)
 {
 	char buffer[256];
-	sl::Array<char> signature(ref::BufKind_Stack, buffer, sizeof(buffer));
+	sl::Array<char> signature(rc::BufKind_Stack, buffer, sizeof(buffer));
 
 	cry::EcKey ecKey(ecKey0);
 
@@ -405,7 +405,7 @@ newProductKey(CmdLine* cmdLine)
 	if (cmdLine->m_randomLength)
 	{
 		char buffer[256];
-		sl::Array<char> data(ref::BufKind_Stack, buffer, sizeof(buffer));
+		sl::Array<char> data(rc::BufKind_Stack, buffer, sizeof(buffer));
 		data.setCount(cmdLine->m_randomLength);
 
 		static char base[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
