@@ -15,11 +15,9 @@ struct CmdLine;
 
 //..............................................................................
 
-class KeyIniParser: public ini::Parser<KeyIniParser>
-{
+class KeyIniParser: public ini::Parser<KeyIniParser> {
 protected:
-	enum Key
-	{
+	enum Key {
 		Key_Curve,
 		Key_PublicKey,
 		Key_PrivateKey,
@@ -49,7 +47,7 @@ public:
 	onKeyValue(
 		const sl::StringRef& keyName,
 		const sl::StringRef& value
-		);
+	);
 };
 
 //..............................................................................

@@ -46,7 +46,7 @@ add_subdirectory(doc)
 install(
 	DIRECTORY license/
 	DESTINATION ${ECCKEY_INSTALL_LICENSE_SUBDIR}
-	)
+)
 
 #...............................................................................
 

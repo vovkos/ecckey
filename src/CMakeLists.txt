@@ -18,21 +18,21 @@ set(
 	CmdLine.h
 	KeyIniParser.h
 	version.h.in
-	)
+)
 
 set(
 	APP_CPP_LIST
 	main.cpp
 	CmdLine.cpp
 	KeyIniParser.cpp
-	)
+)
 
 source_group(
 	app
 	FILES
 	${APP_H_LIST}
 	${APP_CPP_LIST}
-	)
+)
 
 #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 #
@@ -42,13 +42,13 @@ source_group(
 set(
 	RES_RC_LIST
 	res.rc
-	)
+)
 
 source_group(
 	res
 	FILES
 	${RES_RC_LIST}
-	)
+)
 
 #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 #
@@ -63,12 +63,12 @@ axl_push_and_set(CMAKE_CURRENT_BINARY_DIR ${GEN_DIR})
 configure_file(
 	version.h.in
 	${GEN_DIR}/version.h
-	)
+)
 
 set(
 	GEN_H_LIST
 	${GEN_DIR}/version.h
-	)
+)
 
 axl_pop(CMAKE_CURRENT_BINARY_DIR)
 
@@ -76,7 +76,7 @@ source_group(
 	gen
 	FILES
 	${GEN_H_LIST}
-	)
+)
 
 #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 #
@@ -91,7 +91,7 @@ source_group(
 	FILES
 	${PCH_H}
 	${PCH_CPP}
-	)
+)
 
 #...............................................................................
 #
@@ -102,12 +102,12 @@ include_directories(
 	${OPENSSL_INC_DIR}
 	${AXL_INC_DIR}
 	${GEN_DIR}
-	)
+)
 
 link_directories(
 	${OPENSSL_LIB_DIR}
 	${AXL_LIB_DIR}
-	)
+)
 
 add_executable(
 	ecckey
@@ -117,19 +117,19 @@ add_executable(
 	${APP_CPP_LIST}
 	${RES_RC_LIST}
 	${GEN_H_LIST}
-	)
+)
 
 axl_set_pch(
 	ecckey
 	${PCH_H}
 	${PCH_CPP}
-	)
+)
 
 set_target_properties(
 	ecckey
 	PROPERTIES
 	FOLDER tools
-	)
+)
 
 target_link_libraries(
 	ecckey
@@ -139,25 +139,25 @@ target_link_libraries(
 	axl_io
 	axl_core
 	${OPENSSL_CRYPTO_LIB_NAME}
-	)
+)
 
 if(WIN32)
 	target_link_libraries(
 		ecckey
 		iphlpapi
-		)
+	)
 elseif(UNIX)
 	target_link_libraries(
 		ecckey
 		dl
 		pthread
-		)
+	)
 
 	if(NOT APPLE)
 		target_link_libraries(
 			ecckey
 			rt
-			)
+		)
 	endif()
 endif()
 
@@ -181,6 +181,6 @@ endif()
 install(
 	TARGETS ecckey
 	DESTINATION ${ECCKEY_INSTALL_BIN_SUBDIR}
-	)
+)
 
 #...............................................................................
