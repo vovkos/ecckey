@@ -61,11 +61,3 @@ build_script:
     - cmake --build . %CMAKE_BUILD_FLAGS%
 
     - ps: Add-AppveyorMessage "APPVEYOR_REPO_COMMIT=$env:APPVEYOR_REPO_COMMIT"
-
-notifications:
-    -   provider: Webhook
-        on_build_success: true
-        on_build_failure: false
-
-        url: http://jancy.org:5005/appveyor-ci
-
