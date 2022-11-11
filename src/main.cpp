@@ -119,7 +119,7 @@ calcMacFp(CmdLine* cmdLine) {
 	sl::Array<uchar_t> md5Buffer;
 
 	sl::List<io::NetworkAdapterDesc> adapterList;
-	io::createNetworkAdapterDescList(&adapterList);
+	io::enumerateNetworkAdapters(&adapterList);
 
 	sl::Iterator<io::NetworkAdapterDesc> it = adapterList.getHead();
 	for (size_t i = 0; it; it++) {
@@ -148,7 +148,7 @@ verifyMacFp(
 	size_t size
 ) {
 	sl::List<io::NetworkAdapterDesc> adapterList;
-	io::createNetworkAdapterDescList(&adapterList);
+	io::enumerateNetworkAdapters(&adapterList);
 
 	sl::HashTable<Md5Struct, bool, sl::HashDjb2<Md5Struct>, sl::EqBin<Md5Struct> > macDigestSet;
 	sl::Iterator<io::NetworkAdapterDesc> it = adapterList.getHead();
