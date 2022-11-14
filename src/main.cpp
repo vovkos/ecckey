@@ -126,7 +126,7 @@ calcMacFp(CmdLine* cmdLine) {
 		if (it->isNullMacAddress())
 			continue;
 
-		const uchar_t* mac = it->getMacAddress();
+		const uchar_t* mac = it->m_macAddress;
 		printf("MAC[%d]: %02X:%02X:%02X:xx:xx:xx\n", i++, mac[0], mac[1], mac[2]);
 
 		md5Buffer.appendEmptySpace(MD5_DIGEST_LENGTH);
@@ -157,7 +157,7 @@ verifyMacFp(
 			continue;
 
 		uchar_t md5[MD5_DIGEST_LENGTH];
-		MD5(it->getMacAddress(), 6, md5);
+		MD5(it->m_macAddress, 6, md5);
 		macDigestSet.add(*(Md5Struct*)md5, true);
 	}
 
