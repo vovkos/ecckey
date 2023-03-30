@@ -9,9 +9,9 @@
 #
 #...............................................................................
 
-project(ecckey)
-
 cmake_minimum_required(VERSION 3.4)
+
+project(ecckey)
 
 include(axl_cmake.cmake NO_POLICY_SCOPE)
 
