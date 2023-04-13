@@ -84,13 +84,11 @@ source_group(
 #
 
 set(PCH_H   pch.h)
-set(PCH_CPP pch.cpp)
 
 source_group(
 	pch
 	FILES
 	${PCH_H}
-	${PCH_CPP}
 )
 
 #...............................................................................
@@ -112,17 +110,16 @@ link_directories(
 add_executable(
 	ecckey
 	${PCH_H}
-	${PCH_CPP}
 	${APP_H_LIST}
 	${APP_CPP_LIST}
 	${RES_RC_LIST}
 	${GEN_H_LIST}
 )
 
-axl_set_pch(
+target_precompile_headers(
 	ecckey
+	PRIVATE
 	${PCH_H}
-	${PCH_CPP}
 )
 
 set_target_properties(
