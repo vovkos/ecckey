@@ -486,7 +486,6 @@ main(
 
 	srand((int)sys::getTimestamp());
 
-	g::getModule()->setTag("ecckey");
 	lex::registerParseErrorProvider();
 	cry::registerCryptoErrorProviders();
 
