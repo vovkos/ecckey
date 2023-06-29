@@ -9,7 +9,6 @@
 #
 #...............................................................................
 
-brew update
 brew install ragel
 
 # openssl is already installed, but not linked
