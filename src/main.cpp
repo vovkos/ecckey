@@ -97,7 +97,7 @@ listCurves(CmdLine* cmdLine) {
 
 	sl::Array<EC_builtin_curve> curveArray;
 	curveArray.setCount(count);
-	count = EC_get_builtin_curves(curveArray, count);
+	count = EC_get_builtin_curves(curveArray.p(), count);
 
 	if (cmdLine->m_flags & CmdLineFlag_Minimalistic)
 		for (size_t i = 0; i < count; i++)
@@ -130,7 +130,7 @@ calcMacFp(CmdLine* cmdLine) {
 		printf("MAC[%d]: %02X:%02X:%02X:xx:xx:xx\n", i++, mac[0], mac[1], mac[2]);
 
 		md5Buffer.appendEmptySpace(MD5_DIGEST_LENGTH);
-		uchar_t* p = md5Buffer.getEnd() - MD5_DIGEST_LENGTH;
+		uchar_t* p = (uchar_t*)md5Buffer.getEnd() - MD5_DIGEST_LENGTH;
 		MD5(mac, 6, p);
 	}
 
@@ -373,13 +373,13 @@ newProductKey(CmdLine* cmdLine) {
 
 	if (cmdLine->m_randomLength) {
 		char buffer[256];
-		sl::Array<char> data(rc::BufKind_Stack, buffer, sizeof(buffer));
+		sl::Array<uchar_t> data(rc::BufKind_Stack, buffer, sizeof(buffer));
 		data.setCount(cmdLine->m_randomLength);
 
 		static char base[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 		for (size_t i = 0; i < cmdLine->m_keyCount; i++) {
-			::RAND_bytes((uchar_t*)data.p(), cmdLine->m_randomLength);
+			::RAND_bytes(data.p(), cmdLine->m_randomLength);
 
 			sl::String key;
 			for (size_t i = 0, j = 1; i < cmdLine->m_randomLength; i++, j++) {
