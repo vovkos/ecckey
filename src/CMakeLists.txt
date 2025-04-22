@@ -144,19 +144,13 @@ if(WIN32)
 		ecckey
 		iphlpapi
 	)
-elseif(UNIX)
+elseif(NOT APPLE)
 	target_link_libraries(
 		ecckey
-		dl
 		pthread
+		dl
+		rt
 	)
-
-	if(NOT APPLE)
-		target_link_libraries(
-			ecckey
-			rt
-		)
-	endif()
 endif()
 
 if(WIN32 AND OPENSSL_DLL_DIR AND OPENSSL_CRYPTO_DLL_NAME)
