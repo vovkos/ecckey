@@ -132,12 +132,12 @@ CmdLineParser::finalize() {
 		if (!m_cmdLine->m_userName.isEmpty() || !m_cmdLine->m_license.isEmpty()) // e.g. ecckey -u user
 			m_cmdLine->m_flags |= CmdLineFlag_NewProductKey;
 	} else if (m_cmdLine->m_userName.isEmpty()) {
-		err::setFormatStringError("missing user name (-u switch)");
+		err::setError("missing user name (-u switch)");
 		return false;
 	}
 
 	if ((m_cmdLine->m_flags & CmdLineFlag_VerifyProductKey) && m_cmdLine->m_productKey.isEmpty()) {
-		err::setFormatStringError("missing product key (-p switch)");
+		err::setError("missing product key (-p switch)");
 		return false;
 	}
 
