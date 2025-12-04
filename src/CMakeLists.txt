@@ -154,18 +154,12 @@ elseif(NOT APPLE)
 endif()
 
 if(WIN32 AND OPENSSL_DLL_DIR AND OPENSSL_CRYPTO_DLL_NAME)
-	set(_DEBUG_SUFFIX $<$<CONFIG:Debug>:d>)
+	set(_DEBUG_SUFFIX $<$<CONFIG:Debug>:d>) # can append to filenames below
 
-	add_custom_command(
-		TARGET ecckey
-		POST_BUILD
-		COMMAND
-			echo Copying DLL files for ecckey...
-		COMMAND
-			${CMAKE_COMMAND} -E copy
-			${OPENSSL_DLL_DIR}/${OPENSSL_CRYPTO_DLL_NAME}.dll
-			${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CONFIGURATION}
-		)
+	axl_copy_dlls_for_target(
+		ecckey
+		${OPENSSL_DLL_DIR}/${OPENSSL_CRYPTO_DLL_NAME}.dll
+	)
 endif()
 
 #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
