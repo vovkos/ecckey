@@ -40,7 +40,7 @@ KeyIniParser::onKeyValue(
 	if (!m_isLicenseMatch) // ignore
 		return true;
 
-	KeyMap::Iterator it = KeyMap::find(keyName);
+	KeyMap::ConstIterator it = KeyMap::find(keyName);
 	if (it)
 		switch (it->m_value) {
 		case Key_PublicKey:
