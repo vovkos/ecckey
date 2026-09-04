@@ -53,10 +53,8 @@ KeyIniParser::onKeyValue(
 
 		case Key_Curve:
 			m_cmdLine->m_curveId = OBJ_sn2nid(value.sz());
-			if (m_cmdLine->m_curveId == NID_undef) {
-				err::setFormatStringError("invalid curve '%s'", value.sz());
-				return false;
-			}
+			if (m_cmdLine->m_curveId == NID_undef)
+				return err::fail("invalid curve '%s'", value.sz());
 
 			break;
 

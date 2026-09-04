@@ -193,8 +193,7 @@ public:
 protected:
 	bool
 	onValue(const sl::StringRef& value) {
-		err::setFormatStringError("invalid argument %s", value.sz());
-		return true;
+		return err::fail("invalid argument %s", value.sz());
 	}
 
 	bool
