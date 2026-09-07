@@ -7,7 +7,7 @@ on:
 jobs:
     windowsBuild:
         name: Windows Build
-        runs-on: windows-2022
+        runs-on: ${{matrix.TARGET_CPU == 'arm64' && 'windows-11-arm' || 'windows-2022'}}
 
         strategy:
             fail-fast: false
@@ -19,6 +19,7 @@ jobs:
                 TARGET_CPU:
                 -   x86
                 -   amd64
+                -   arm64
 
         steps:
         -   name: Checkout repo
@@ -27,18 +28,17 @@ jobs:
         -   name: Install
             shell: cmd
             run: |
-                call ci\github-actions\set-env.bat ${{matrix.TARGET_CPU}}
+                call ci\github-actions\set-env.bat ${{matrix.TARGET_CPU}} ${{matrix.CONFIGURATION}}
                 call ci\github-actions\install-windows.bat
                 git clone --depth 1 https://github.com/vovkos/axl
 
         -   name: Build and test
             shell: cmd
             run: |
-                set CONFIGURATION=${{matrix.CONFIGURATION}}
                 set THIS_DIR=%CD%
                 set THIS_DIR_CMAKE=%THIS_DIR:\=/%
 
-                call ci\github-actions\set-env.bat ${{matrix.TARGET_CPU}}
+                call ci\github-actions\set-env.bat ${{matrix.TARGET_CPU}} ${{matrix.CONFIGURATION}}
 
                 mkdir axl\build
                 cd axl\build
@@ -56,7 +56,7 @@ jobs:
 
     linuxBuild:
         name: Linux Build
-        runs-on: ubuntu-24.04
+        runs-on: ${{matrix.TARGET_CPU == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04'}}
 
         strategy:
             fail-fast: false
@@ -68,6 +68,7 @@ jobs:
                 TARGET_CPU:
                 -   x86
                 -   amd64
+                -   arm64
 
                 COMPILER:
                 -   clang

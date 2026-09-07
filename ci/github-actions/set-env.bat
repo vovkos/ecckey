@@ -22,6 +22,10 @@ if /i "%1" == "i386" goto :x86
 if /i "%1" == "amd64" goto :amd64
 if /i "%1" == "x86_64" goto :amd64
 if /i "%1" == "x64" goto :amd64
+if /i "%1" == "arm64" goto :arm64
+if /i "%1" == "aarch64" goto :arm64
+if /i "%1" == "debug" goto :debug
+if /i "%1" == "release" goto :release
 
 echo Invalid argument: '%1'
 exit -1
@@ -73,6 +77,31 @@ set OPENSSL_DIR_SUFFIX=
 set OPENSSL_DLL_SUFFIX=-1_1-x64
 set CHOCO_PLATFORM=
 set PROGRAM_FILES_DIR_SUFFIX=
+shift
+goto :loop
+
+:arm64
+set TARGET_CPU=arm64
+set CMAKE_ARCH_SUFFIX=
+set CMAKE_ARCH_OPTIONS=-A ARM64
+set OPENSSL_DIR_SUFFIX=
+set OPENSSL_DLL_SUFFIX=-3-arm64
+set CHOCO_PLATFORM=
+set PROGRAM_FILES_DIR_SUFFIX=
+shift
+goto :loop
+
+:: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+:: Configuration
+
+:debug
+set CONFIGURATION=Debug
+shift
+goto :loop
+
+:release
+set CONFIGURATION=Release
 shift
 goto :loop
 
